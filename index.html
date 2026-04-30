@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Red estudio–género–demografía en el anime contemporáneo (2023–2026)</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero-texto">
+        <p class="serie">Proyecto de visualización de datos</p>
+        <h1>Análisis de la relación estudio–género–demografía en el anime contemporáneo (2023–2026)</h1>
+        <p class="entradilla">
+          La industria del anime ha experimentado una transformación notable en los últimos años. Lejos de ser un mercado homogéneo, hoy se caracteriza por una creciente diversificación de géneros y una proliferación de estudios de animación que no solo compiten, sino que en muchos casos se han especializado en nichos muy específicos de género y demografía.
+        </p>
+        <p class="meta"> Natalia Rocha - natalia.rocha@tec.mx - 29 de abril 2026
+          
+        </p>
+      </div>
+    </header>
+
+    <main>
+      <article>
+        <section class="texto">
+          <p class="lead">
+            Red de análisis de la relación entre demografía, estudio creador y género de anime en el periodo 2023–2026. 
+          </p>
+          <p>
+            Los datos fueron recopilados manualmente a partir de las puntuaciones y metadatos disponibles en MyAnimeList, la base de datos de anime más grande de internet, complementada con información de LiveChart y AniChart para las series en emisión durante 2025 y 2026. 
+            El corpus final comprende 35 series de televisión seleccionadas por relevancia crítica y popularidad dentro de cada temporada.
+          </p>
+          <iframe 
+  src="https://graphcommons.com/graphs/21a72686-7e9a-429f-b25a-c1322c9119b0" 
+  width="100%" 
+  height="600" 
+  frameborder="0">
+</iframe>
+<h3>Estructura de la red</h3>
+<p>La red está compuesta por <strong>48 nodos</strong> y <strong>142 edges</strong> distribuidos en tres tipos de entidades:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Cantidad</th>
+      <th>Descripción</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Estudio</td>
+      <td>23</td>
+      <td>Estudio de animación responsable de la producción</td>
+    </tr>
+    <tr>
+      <td>Género</td>
+      <td>22</td>
+      <td>Categoría narrativa o temática de la serie</td>
+    </tr>
+    <tr>
+      <td>Demografía</td>
+      <td>3</td>
+      <td>Audiencia objetivo: Shōnen, Seinen, Josei</td>
+    </tr>
+  </tbody>
+</table>
+        </section>
+
+        <section class="modulo modulo-doble">
+          <div>
+            <p class="etiqueta">Hallazgo 1</p>
+            <h2>Clustering: comunidades dentro de la red</h2>
+            <p>
+             Graph Commons identificó automáticamente 5 comunidades o clusters, agrupando los nodos según densidad de conexiones internas. 
+             Un dato relevante: los clusters no coinciden con los tipos de nodo —mezclan estudios y géneros— lo que confirma que la especialización en la industria anime es estructural y no aleatoria.
+          </div>
+          <figure>
+            <iframe width="100%" height="584" frameborder="0"
+  src="https://observablehq.com/embed/@studio2104/red-estudio-genero-demografia-en-el-anime?cells=tablaClustering"></iframe>
+            <figcaption>Fuente: nombre de la fuente. Nota: explica filtros o transformaciones relevantes.</figcaption>
+          </figure>
+        </section>
+
+        <section class="texto">
+          <p>
+          El cluster más grande se articula alrededor de Seinen, agrupando estudios como Shaft, 8bit y White Fox junto con géneros de mayor densidad narrativa: Deportes, Isekai, Psicológico y Horror. Es el polo dominante de la red en términos de volumen de nodos, y su alta densidad interna sugiere una fuerte especialización de estos estudios hacia la audiencia adulta.
+
+El segundo cluster, organizado en torno a Shōnen, concentra estudios como Wit Studio / CloverWorks, A-1 Pictures, Bones y MAPPA, con géneros de acción, aventura y superhéroes orientados a audiencia juvenil. La presencia de MAPPA en este cluster es llamativa dado que también produce contenido Seinen, lo que lo posiciona como un estudio bisagra entre comunidades.
+
+Los clusters de Comedia y Drama tienen el mismo peso relativo (15% cada uno) y funcionan como zonas intermedias: agrupan estudios de perfil más especializado —Shin-Ei Animation, Toho Animation / OLM, Doga Kobo— junto con géneros como Romance y Escolar. El cluster de Drama además incluye géneros como Histórico y Misterio, con una orientación clara hacia el público Josei.
+
+El cluster más pequeño, articulado alrededor de Psicológico, es prácticamente una díada: Shaft y su género característico aparecen casi aislados del resto de la red, lo que refuerza la imagen de un estudio con identidad visual y narrativa muy particular dentro de la industria.
+          </p>
+        </section>
+
+        <section class="modulo destacado">
+          <p class="cifra">42%</p>
+          <p>
+            Usa una cifra destacada solo si ayuda a condensar el argumento. Debe tener fuente y debe poder verificarse en los datos.
+          </p>
+        </section>
+
+        <section class="modulo modulo-doble invertido">
+          <figure>
+            <div class="placeholder-viz">Visualización 2</div>
+            <figcaption>Fuente: nombre de la fuente. Nota: explica qué cambia frente a la visualización anterior.</figcaption>
+          </figure>
+          <div>
+            <p class="etiqueta">Hallazgo 2</p>
+            <h2>Una excepción, ruptura o contraste</h2>
+            <p>
+              Esta sección sirve para complejizar la lectura. Puede mostrar un caso que contradice la tendencia, un grupo subrepresentado o una escala que cambia la interpretación.
+            </p>
+          </div>
+        </section>
+
+        <section class="texto cierre">
+          <h2>Cierre</h2>
+          <p>
+            Retoma la pregunta inicial y deja una conclusión argumentada. El cierre puede proponer una decisión, señalar un límite de los datos o abrir una pregunta que merezca investigación futura.
+          </p>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>
