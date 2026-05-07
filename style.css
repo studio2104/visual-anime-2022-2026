@@ -16,8 +16,10 @@ body {
   margin: 0;
   background: var(--fondo);
   color: var(--texto);
-  font-family:  "American Typewriter", "Courier New", Courier, monospace;
-  line-height: 1.55;
+  font-family: "American Typewriter", "Courier New", Courier, monospace;
+  line-height: 1.7;
+  font-size: 1.05rem;
+  -webkit-font-smoothing: antialiased;
 }
 
 .hero {
@@ -41,9 +43,9 @@ body {
 figcaption {
   margin: 0;
   color: var(--muted);
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
@@ -68,9 +70,11 @@ h1 {
 }
 
 .entradilla {
-  max-width: 720px;
-  margin-top: 1.4rem;
-  font-size: clamp(1.2rem, 2vw, 1.7rem);
+  max-width: 680px;
+  margin-top: 1.6rem;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .meta {
@@ -82,20 +86,67 @@ article {
   margin: 0 auto;
 }
 
+/* ── Texto corrido ── */
 .texto {
-  max-width: 760px;
+  max-width: 680px;
   padding: 5rem 0;
 }
 
+.texto p {
+  font-size: 1.08rem;
+  line-height: 1.8;
+  color: var(--texto);
+}
+
 .texto p + p {
-  margin-top: 1.25rem;
+  margin-top: 1.5rem;
 }
 
 .lead {
-  font-size: clamp(1.35rem, 2.6vw, 2rem);
-  line-height: 1.35;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.45;
+  color: var(--texto);
 }
 
+/* ── Tabla ── */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+}
+
+th {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border-bottom: 2px solid var(--linea);
+}
+
+td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--linea);
+  line-height: 1.5;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Headings dentro del artículo ── */
+h3 {
+  margin-top: 3rem;
+  font-family: "Lucida Console", "Courier New", monospace;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  letter-spacing: 0.03em;
+  color: var(--texto);
+}
+
+/* ── Módulos ── */
 .modulo {
   margin: 2rem 0 5rem;
   padding: 4rem 0;
@@ -123,8 +174,10 @@ h2 {
 }
 
 .modulo p:not(.etiqueta) {
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--texto);
 }
 
 figure {
@@ -150,8 +203,11 @@ figcaption {
   text-transform: none;
   letter-spacing: 0;
   font-weight: 500;
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
+/* ── Destacado ── */
 .destacado {
   display: grid;
   grid-template-columns: minmax(180px, 0.35fr) minmax(260px, 1fr);
@@ -170,6 +226,48 @@ figcaption {
   padding-bottom: 7rem;
 }
 
+/* ── Lightbox ── */
+.figuras-hallazgo {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.viz-thumb {
+  width: 100%;
+  display: block;
+  cursor: zoom-in;
+  border: 1px solid var(--linea);
+  border-radius: 6px;
+  transition: opacity 0.2s;
+}
+
+.viz-thumb:hover {
+  opacity: 0.85;
+}
+
+#lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 22, 28, 0.92);
+  z-index: 999;
+  cursor: zoom-out;
+  place-items: center;
+}
+
+#lightbox.activo {
+  display: grid;
+}
+
+#lightbox-img {
+  max-width: 94vw;
+  max-height: 92vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* ── Responsive ── */
 @media (max-width: 780px) {
   .hero {
     min-height: 76vh;
@@ -185,4 +283,16 @@ figcaption {
   .placeholder-viz {
     min-height: 320px;
   }
+
+  .texto {
+    max-width: 100%;
+  }
+}
+.figura-bubble {
+  overflow-x: auto;
+}
+
+.modulo-bubble h2 {
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  line-height: 1.2;
 }

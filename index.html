@@ -5,6 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Red estudio–género–demografía en el anime contemporáneo (2022–2026)</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+      /* Lightbox */
+      #lightbox {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(12, 22, 28, 0.92);
+        z-index: 999;
+        cursor: zoom-out;
+        place-items: center;
+      }
+
+      #lightbox.activo {
+        display: grid;
+      }
+
+      #lightbox-img {
+        max-width: 94vw;
+        max-height: 92vh;
+        object-fit: contain;
+        border-radius: 4px;
+      }
+
+      .figuras-hallazgo {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .viz-thumb {
+        width: 100%;
+        display: block;
+        cursor: zoom-in;
+        border: 1px solid var(--linea);
+        border-radius: 6px;
+        transition: opacity 0.2s;
+      }
+
+      .viz-thumb:hover {
+        opacity: 0.85;
+      }
+    </style>
   </head>
   <body>
     <header class="hero">
@@ -15,9 +57,7 @@
           La industria del anime ha experimentado una transformación notable en los últimos años. 
           Lejos de ser un mercado homogéneo, hoy se caracteriza por una creciente diversificación de géneros y una proliferación de estudios de animación que no solo compiten, sino que en muchos casos se han especializado en nichos muy específicos de género y demografía.
         </p>
-        <p class="meta"> Natalia Rocha - natalia.rocha@tec.mx - 29 de abril 2026
-          
-        </p>
+        <p class="meta">Natalia Rocha - natalia.rocha@tec.mx - 29 de abril 2026</p>
       </div>
     </header>
 
@@ -34,96 +74,103 @@
             El corpus final comprende 70 series de televisión seleccionadas por relevancia crítica y popularidad dentro de cada temporada.
           </p>
           <iframe 
-  src="https://graphcommons.com/graphs/35a53294-5f09-40ff-be3c-08b1b3df6fc3" 
-  width="170%" 
-  height="1080" 
-  frameborder="0">
-</iframe>
-<h3>Estructura de la red</h3>
-<p>La red está compuesta por <strong> 71 nodos</strong> y <strong> 246 edges</strong> distribuidos en tres tipos de entidades:</p>
+            src="https://graphcommons.com/graphs/35a53294-5f09-40ff-be3c-08b1b3df6fc3" 
+            width="170%" 
+            height="1080" 
+            frameborder="0">
+          </iframe>
+          <h3>Estructura de la red</h3>
+          <p>La red está compuesta por <strong>71 nodos</strong> y <strong>246 edges</strong> distribuidos en tres tipos de entidades:</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>Tipo</th>
-      <th>Cantidad</th>
-      <th>Descripción</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Anime</td>
-      <td>50</td>
-      <td>Título de la serie de anime</td>
-    </tr>
-    <tr>
-      <td>Género</td>
-      <td>16</td>
-      <td>Categoría narrativa o temática de la serie</td>
-    </tr>
-    <tr>
-      <td>País</td>
-      <td>5</td>
-      <td>País latinoamericano</td>
-    </tr>
-  </tbody>
-</table>
+          <table>
+            <thead>
+              <tr>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Anime</td>
+                <td>50</td>
+                <td>Título de la serie de anime</td>
+              </tr>
+              <tr>
+                <td>Género</td>
+                <td>16</td>
+                <td>Categoría narrativa o temática de la serie</td>
+              </tr>
+              <tr>
+                <td>País</td>
+                <td>5</td>
+                <td>País latinoamericano</td>
+              </tr>
+            </tbody>
+          </table>
         </section>
 
         <section class="modulo modulo-doble">
           <div>
             <p class="etiqueta">Hallazgo 1</p>
-            <h2>Patrones por país </h2>
-            <p>
-            Concentración por país latinoamericano
+            <h2>Patrones por país</h2>
+            <p>Concentración por país latinoamericano</p>
           </div>
-          <figure>
-            <iframe 
-  src="red2.png" 
-  width="140%" 
-  height="1080px" 
-  style="border:none;">
-</iframe>
-            <figcaption>Fuente: AniList, Jikan y Google Trends al 6 de mayo 2026.</figcaption>
-          </figure>
+
+          <div class="figuras-hallazgo">
+            <figure>
+              <img src="Strip1.png" alt="Strip chart de patrones por país" class="viz-thumb">
+              <figcaption>Fuente: AniList, Jikan y Google Trends al 6 de mayo 2026.</figcaption>
+            </figure>
+            <figure>
+              <img src="tabla1.png" alt="Tabla de concentración por país" class="viz-thumb">
+              <figcaption>Fuente: AniList, Jikan y Google Trends al 6 de mayo 2026.</figcaption>
+            </figure>
+          </div>
         </section>
+
+        <!-- Lightbox -->
+        <div id="lightbox">
+          <img id="lightbox-img" src="" alt="">
+        </div>
 
         <section class="texto">
           <p>
-          
-Fantasy y Action van a tener las nubes de anime más densas — son los géneros dominantes en el dataset (2022–2026). Adventure y Romance les siguen.
-Estudios hub
-MAPPA, CloverWorks, A-1 Pictures y TMS Entertainment van a aparecer como nodos grandes con muchas conexiones. MAPPA en particular conecta títulos de géneros muy distintos (Action, Drama, Gourmet), lo que lo hace un puente entre clusters.
-Demografía
-Shounen domina numéricamente. Seinen tiene menos títulos pero scores más altos en promedio. Shoujo y Josei son clusters pequeños y compactos.
-Títulos aislados
-Géneros como Erotica, Girls Love, Avant Garde, Slice of Life van a quedar en la periferia con muy pocos animes — son nichos.
+            Fantasy y Action van a tener las nubes de anime más densas — son los géneros dominantes en el dataset (2022–2026). Adventure y Romance les siguen.
+            Estudios hub: MAPPA, CloverWorks, A-1 Pictures y TMS Entertainment van a aparecer como nodos grandes con muchas conexiones. MAPPA en particular conecta títulos de géneros muy distintos (Action, Drama, Gourmet), lo que lo hace un puente entre clusters.
+            Demografía: Shounen domina numéricamente. Seinen tiene menos títulos pero scores más altos en promedio. Shoujo y Josei son clusters pequeños y compactos.
+            Géneros como Erotica, Girls Love, Avant Garde, Slice of Life van a quedar en la periferia con muy pocos animes — son nichos.
           </p>
         </section>
 
         <section class="modulo destacado">
           <p class="cifra">42%</p>
           <iframe width="100%" height="142" frameborder="0"
-  src="https://observablehq.com/embed/bdd8182f0ef55c2d@37?cells=viewof+filtros"></iframe>
+            src="https://observablehq.com/embed/bdd8182f0ef55c2d@37?cells=viewof+filtros"></iframe>
           <p>
             Usa una cifra destacada solo si ayuda a condensar el argumento. Debe tener fuente y debe poder verificarse en los datos.
           </p>
         </section>
 
-        <section class="modulo modulo-doble invertido">
-          <figure>
-           
-            <figcaption>Fuente: nombre de la fuente. Nota: explica qué cambia frente a la visualización anterior.</figcaption>
-          </figure>
-          <div>
-            <p class="etiqueta">Hallazgo 2</p>
-            <h2>Una excepción, ruptura o contraste</h2>
-            <p>
-              Esta sección sirve para complejizar la lectura. Puede mostrar un caso que contradice la tendencia, un grupo subrepresentado o una escala que cambia la interpretación.
-            </p>
-          </div>
-        </section>
-
+        <section class="modulo modulo-doble invertido modulo-bubble">
+  <figure class="figura-bubble">
+    <iframe
+      src="bubble1.html"
+      width="860"
+      height="540"
+      style="border:none; border-radius:6px; max-width:100%;">
+    </iframe>
+    <figcaption>Fuente: AniList, Jikan y Google Trends al 6 de mayo 2026.</figcaption>
+  </figure>
+  <div>
+    <p class="etiqueta">Hallazgo 2</p>
+    <h2>¿Qué le gusta a los espectadores latinos?</h2>
+    <p>
+      XXXXXXX
+    </p>
+  </div>
+</section>
+  
         <section class="texto cierre">
           <h2>Cierre</h2>
           <p>
@@ -132,5 +179,27 @@ Géneros como Erotica, Girls Love, Avant Garde, Slice of Life van a quedar en la
         </section>
       </article>
     </main>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+
+        document.querySelectorAll('.viz-thumb').forEach(img => {
+          img.addEventListener('click', () => {
+            lightboxImg.src = img.src;
+            lightbox.classList.add('activo');
+          });
+        });
+
+        lightbox.addEventListener('click', () => {
+          lightbox.classList.remove('activo');
+        });
+
+        document.addEventListener('keydown', e => {
+          if (e.key === 'Escape') lightbox.classList.remove('activo');
+        });
+      });
+    </script>
   </body>
 </html>
