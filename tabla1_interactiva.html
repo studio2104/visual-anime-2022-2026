@@ -181,41 +181,21 @@
       {anime:"Yamada-kun to Lv999 no Koi wo Suru", MX:null, AR:null, BR:null, CO:null, CL:2},
     ];
 
-    const IMGS = {
-      "Blue Lock":                               "https://cdn.myanimelist.net/images/anime/1258/126572.jpg",
-      "Kusuriya no Hitorigoto":                  "https://cdn.myanimelist.net/images/anime/1708/138033.jpg",
-      "Summer Time Render":                      "https://cdn.myanimelist.net/images/anime/1813/119592.jpg",
-      "Kaijuu 8-gou":                            "https://cdn.myanimelist.net/images/anime/1927/141029.jpg",
-      "Gachiakuta":                              "https://cdn.myanimelist.net/images/anime/1765/146060.jpg",
-      "Lycoris Recoil":                          "https://cdn.myanimelist.net/images/anime/1362/126032.jpg",
-      "Dungeon Meshi":                           "https://cdn.myanimelist.net/images/anime/1721/140081.jpg",
-      "Kage no Jitsuryokusha ni Naritakute":     "https://cdn.myanimelist.net/images/anime/1418/117994.jpg",
-      "BLEACH: Sennen Kessen-hen":               "https://cdn.myanimelist.net/images/anime/1764/126627.jpg",
-      "VINLAND SAGA SEASON 2":                   "https://cdn.myanimelist.net/images/anime/1444/122861.jpg",
-      "SPY×FAMILY":                              "https://cdn.myanimelist.net/images/anime/1441/122795.jpg",
-      "Kusuriya no Hitorigoto 2nd Season":       "https://cdn.myanimelist.net/images/anime/1708/138033.jpg",
-      "Youkoso Jitsuryoku Shijou Shugi no Kyoushitsu e": "https://cdn.myanimelist.net/images/anime/1329/110753.jpg",
-      "Dr. STONE: NEW WORLD":                    "https://cdn.myanimelist.net/images/anime/1613/128509.jpg",
-      "Dandadan":                                "https://cdn.myanimelist.net/images/anime/1485/142921.jpg",
-      "WIND BREAKER":                            "https://cdn.myanimelist.net/images/anime/1482/141824.jpg",
-      "Bocchi the Rock!":                        "https://cdn.myanimelist.net/images/anime/1393/122991.jpg",
-      "Yofukashi no Uta":                        "https://cdn.myanimelist.net/images/anime/1764/120544.jpg",
-      "Sono Bisque Doll wa Koi wo Suru":         "https://cdn.myanimelist.net/images/anime/1088/119126.jpg",
-      "MASHLE":                                  "https://cdn.myanimelist.net/images/anime/1434/133735.jpg",
-      "Kimetsu no Yaiba: Hashira Geiko-hen":     "https://cdn.myanimelist.net/images/anime/1765/143038.jpg",
-      "Sousou no Frieren":                       "https://cdn.myanimelist.net/images/anime/1015/138006.jpg",
-      "[Oshi no Ko]":                            "https://cdn.myanimelist.net/images/anime/1812/134736.jpg",
-      "Boku no Hero Academia 6":                 "https://cdn.myanimelist.net/images/anime/1530/117509.jpg",
-      "Kimetsu no Yaiba: Katanakaji no Sato-hen":"https://cdn.myanimelist.net/images/anime/1765/135099.jpg",
-      "Jujutsu Kaisen: Shimetsu Kaiyu-hen":      "https://cdn.myanimelist.net/images/anime/1792/138022.jpg",
-      "Mushoku Tensei II":                       "https://cdn.myanimelist.net/images/anime/1726/129061.jpg",
-      "Youkoso Jitsuryoku Shijou Shugi 3rd Season": "https://cdn.myanimelist.net/images/anime/1329/110753.jpg",
-      "Zom 100":                                 "https://cdn.myanimelist.net/images/anime/1765/138578.jpg",
-      "Jujutsu Kaisen 2nd Season":               "https://cdn.myanimelist.net/images/anime/1792/138022.jpg",
-      "Kawaii dake ja Nai Shikimori-san":        "https://cdn.myanimelist.net/images/anime/1795/119155.jpg",
-      "SPY×FAMILY Season 2":                     "https://cdn.myanimelist.net/images/anime/1441/122795.jpg",
-      "Yamada-kun to Lv999 no Koi wo Suru":      "https://cdn.myanimelist.net/images/anime/1763/134858.jpg",
-    };
+    const IMGS = {};
+
+    async function preloadImages() {
+      const titles = DATA.map(d => d.anime);
+      for (const title of titles) {
+        try {
+          const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(title)}&limit=1`);
+          const json = await res.json();
+          const img = json.data?.[0]?.images?.jpg?.image_url;
+          if (img) IMGS[title] = img;
+          await new Promise(r => setTimeout(r, 400));
+        } catch(e) {}
+      }
+      render();
+    }
     const COLORS = {MX:"#E63946", AR:"#457B9D", BR:"#2A9D8F", CO:"#E9C46A", CL:"#F4A261"};
     const MAX = Math.max(...DATA.flatMap(d => COLS.map(c => d[c] || 0)));
 
@@ -269,6 +249,7 @@
     document.getElementById("filter-mode").addEventListener("change", e => { filterMode = e.target.value; render(); });
 
     render();
+    preloadImages();
   </script>
 </body>
 </html>
