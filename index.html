@@ -53,6 +53,7 @@
       #tooltip-intro.activo { display: block; }
       #tooltip-intro .tt-title { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
       #tooltip-intro .tt-body { font-size: 12px; opacity: 0.75; margin: 0; line-height: 1.5; }
+      .red-row { transition: opacity 0.5s ease, transform 0.5s ease; }
     </style>
   </head>
   <body>
@@ -89,7 +90,7 @@
             De cada plataforma se extrajeron las 70 series más populares a nivel global, incluyendo géneros, estudio de animación y métricas de audiencia.
             Para emparejar títulos entre ambas bases —que a veces usan nombres distintos para la misma serie, como "Shingeki no Kyojin" y "Attack on Titan"— se empleó un
             <span class="term" data-key="similitud">algoritmo de similitud textual</span>
-            con un umbral ajustable. El resultado es un conjunto de datos unificado con ranking, géneros, estudio, año, puntuaciones de ambas fuentes e identificadores originales para trazabilidad. Es importante aclarar una limitante: ninguna de estas plataformas ofrece
+            con un umbral ajustable. El resultado es un conjunto de datos unificado con ranking, géneros, estudio, año, puntuaciones de ambas fuentes e identificadores originales para trazabilidad. Vale aclarar una limitante importante: ninguna de estas plataformas ofrece
             <span class="term" data-key="consumo">datos de consumo por país</span>;
             lo que registran son las dos comunidades de seguimiento de anime más grandes del mundo, y eso es lo que este análisis refleja.
           </p>
@@ -105,7 +106,7 @@
             frameborder="0">
           </iframe>
           <h3>Estructura de la red</h3>
-          <p>La red está compuesta por <strong>71 nodos</strong> y <strong>246 edges</strong> distribuidos en tres tipos de entidades:</p>
+          <p>La red está compuesta por <strong><span class="count-up" data-target="71">0</span> nodos</strong> y <strong><span class="count-up" data-target="246">0</span> edges</strong> distribuidos en tres tipos de entidades:</p>
           <table>
             <thead>
               <tr>
@@ -114,20 +115,20 @@
                 <th>Descripción</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
+            <tbody class="red-tbody">
+              <tr class="red-row" style="opacity:0; transform: translateY(12px);">
                 <td>Anime</td>
-                <td>50</td>
+                <td><span class="count-up" data-target="50">0</span></td>
                 <td>Título de la serie de anime</td>
               </tr>
-              <tr>
+              <tr class="red-row" style="opacity:0; transform: translateY(12px);">
                 <td>Género</td>
-                <td>16</td>
+                <td><span class="count-up" data-target="16">0</span></td>
                 <td>Categoría narrativa o temática de la serie</td>
               </tr>
-              <tr>
+              <tr class="red-row" style="opacity:0; transform: translateY(12px);">
                 <td>País</td>
-                <td>5</td>
+                <td><span class="count-up" data-target="5">0</span></td>
                 <td>País latinoamericano</td>
               </tr>
             </tbody>
@@ -267,6 +268,54 @@
     <div id="lightbox">
       <img id="lightbox-img" src="" alt="">
     </div>
+
+    <script>
+      function animateCount(el, target, duration) {
+        const start = performance.now();
+        function step(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(ease * target);
+          if (progress < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
+      function initRedObserver() {
+        const tbody = document.querySelector('.red-tbody');
+        const rows  = document.querySelectorAll('.red-row');
+        const countsInHeader = document.querySelectorAll('p .count-up');
+        let fired = false;
+
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !fired) {
+              fired = true;
+
+              countsInHeader.forEach(el => {
+                animateCount(el, parseInt(el.dataset.target), 900);
+              });
+
+              rows.forEach((row, i) => {
+                setTimeout(() => {
+                  row.style.opacity = '1';
+                  row.style.transform = 'translateY(0)';
+                  row.querySelectorAll('.count-up').forEach(el => {
+                    animateCount(el, parseInt(el.dataset.target), 700);
+                  });
+                }, i * 180);
+              });
+
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.3 });
+
+        if (tbody) observer.observe(tbody);
+      }
+
+      document.addEventListener('DOMContentLoaded', initRedObserver);
+    </script>
 
     <script>
       const tooltipDefs = {
