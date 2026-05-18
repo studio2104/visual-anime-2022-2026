@@ -33,6 +33,26 @@
       }
       .viz-thumb:hover { opacity: 0.85; }
       .texto.texto-intro { max-width: 100%; }
+      .term {
+        border-bottom: 1.5px dashed currentColor;
+        cursor: help;
+        opacity: 0.85;
+      }
+      .term:hover { opacity: 1; text-decoration: none; }
+      #tooltip-intro {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        background: var(--fondo, #fff);
+        border: 0.5px solid var(--linea, #ccc);
+        border-radius: 8px;
+        padding: 10px 14px;
+        max-width: 280px;
+        pointer-events: none;
+      }
+      #tooltip-intro.activo { display: block; }
+      #tooltip-intro .tt-title { font-size: 13px; font-weight: 600; margin: 0 0 4px; }
+      #tooltip-intro .tt-body { font-size: 12px; opacity: 0.75; margin: 0; line-height: 1.5; }
     </style>
   </head>
   <body>
@@ -61,8 +81,23 @@
           <h2>Introducción</h2>  
           </p>
           <p>
-            El corpus de este proyecto se construyó cruzando dos fuentes complementarias: AniList —consultada vía GraphQL— y MyAnimeList, accedida a través de la API Jikan. De cada plataforma se extrajeron las 70 series más populares a nivel global, incluyendo géneros, estudio de animación y métricas de audiencia. Para emparejar títulos entre ambas bases —que a veces usan nombres distintos para la misma serie, como "Shingeki no Kyojin" y "Attack on Titan"— se empleó un algoritmo de similitud textual con un umbral ajustable. El resultado es un conjunto de datos unificado con ranking, géneros, estudio, año, puntuaciones de ambas fuentes e identificadores originales para trazabilidad. Vale aclarar un límite importante: ninguna de estas plataformas ofrece datos de consumo por país; lo que registran son las dos comunidades de seguimiento de anime más grandes del mundo, y eso es lo que este análisis refleja.
+            El corpus de este proyecto se construyó cruzando dos fuentes complementarias:
+            <span class="term" data-key="anilist">AniList</span> —consultada vía
+            <span class="term" data-key="graphql">GraphQL</span>— y
+            <span class="term" data-key="mal">MyAnimeList</span>, accedida a través de la
+            <span class="term" data-key="jikan">API Jikan</span>.
+            De cada plataforma se extrajeron las 70 series más populares a nivel global, incluyendo géneros, estudio de animación y métricas de audiencia.
+            Para emparejar títulos entre ambas bases —que a veces usan nombres distintos para la misma serie, como "Shingeki no Kyojin" y "Attack on Titan"— se empleó un
+            <span class="term" data-key="similitud">algoritmo de similitud textual</span>
+            con un umbral ajustable. El resultado es un conjunto de datos unificado con ranking, géneros, estudio, año, puntuaciones de ambas fuentes e identificadores originales para trazabilidad. Es importante aclarar una limitante: ninguna de estas plataformas ofrece
+            <span class="term" data-key="consumo">datos de consumo por país</span>;
+            lo que registran son las dos comunidades de seguimiento de anime más grandes del mundo, y eso es lo que este análisis refleja.
           </p>
+
+          <div id="tooltip-intro">
+            <p class="tt-title" id="tt-title-intro"></p>
+            <p class="tt-body" id="tt-body-intro"></p>
+          </div>
           <iframe 
             src="https://graphcommons.com/graphs/35a53294-5f09-40ff-be3c-08b1b3df6fc3" 
             width="170%" 
@@ -232,6 +267,61 @@
     <div id="lightbox">
       <img id="lightbox-img" src="" alt="">
     </div>
+
+    <script>
+      const tooltipDefs = {
+        anilist: {
+          title: "AniList",
+          body: "Plataforma de seguimiento de anime y manga con más de 10 millones de usuarios. Permite consultar su base de datos pública vía GraphQL."
+        },
+        graphql: {
+          title: "GraphQL",
+          body: "Lenguaje de consulta para APIs que permite pedir exactamente los campos necesarios, a diferencia de REST que devuelve estructuras fijas."
+        },
+        mal: {
+          title: "MyAnimeList (MAL)",
+          body: "La base de datos de anime más grande del mundo con más de 20 millones de usuarios. Ofrece scores, rankings y estadísticas de audiencia globales."
+        },
+        jikan: {
+          title: "API Jikan",
+          body: "API REST no oficial que expone los datos públicos de MyAnimeList. Su nombre significa 'tiempo' en japonés."
+        },
+        similitud: {
+          title: "Algoritmo de similitud textual",
+          body: "Técnica que compara dos cadenas de texto y devuelve un porcentaje de parecido. Se usó SequenceMatcher de Python con un umbral de 0.75."
+        },
+        consumo: {
+          title: "Datos de consumo por país",
+          body: "Información sobre cuántas personas ven un contenido en un país específico. Ni AniList ni MAL la publican; solo existen como dato interno de plataformas como Netflix o Crunchyroll."
+        }
+      };
+
+      const tooltip = document.getElementById('tooltip-intro');
+      const ttTitle = document.getElementById('tt-title-intro');
+      const ttBody  = document.getElementById('tt-body-intro');
+
+      document.querySelectorAll('.term').forEach(el => {
+        el.addEventListener('mouseenter', e => {
+          const d = tooltipDefs[el.dataset.key];
+          if (!d) return;
+          ttTitle.textContent = d.title;
+          ttBody.textContent  = d.body;
+          tooltip.classList.add('activo');
+          positionTooltip(e);
+        });
+        el.addEventListener('mousemove', positionTooltip);
+        el.addEventListener('mouseleave', () => tooltip.classList.remove('activo'));
+      });
+
+      function positionTooltip(e) {
+        const margin = 14, tw = 280;
+        let x = e.clientX + margin;
+        let y = e.clientY + margin;
+        if (x + tw > window.innerWidth - 8) x = e.clientX - tw - margin;
+        tooltip.style.left = x + 'px';
+        tooltip.style.top  = y + 'px';
+      }
+    </script>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
