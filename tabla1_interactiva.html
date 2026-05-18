@@ -66,7 +66,7 @@
     th.sorted-asc::after  { content: " ↑"; }
     th.sorted-desc::after { content: " ↓"; }
     td {
-      padding: 6px 12px;
+      padding: 8px 12px;
       border-bottom: 0.5px solid var(--linea);
       text-align: center;
       color: var(--texto);
@@ -84,22 +84,8 @@
     }
     .val { vertical-align: middle; font-weight: 700; }
     .dash { color: var(--linea); }
-    .col-img     { width: 52px; }
-    .col-anime   { width: 26%; }
-    .col-country { width: 13%; }
-    .anime-thumb {
-      width: 36px; height: 52px;
-      object-fit: cover;
-      border-radius: 4px;
-      display: block;
-      background: var(--linea);
-    }
-    .thumb-placeholder {
-      width: 36px; height: 52px;
-      border-radius: 4px;
-      background: var(--linea);
-      display: inline-block;
-    }
+    .col-anime { width: 30%; }
+    .col-country { width: 14%; }
     .footer {
       font-size: 11px;
       color: var(--muted);
@@ -130,7 +116,6 @@
     <table>
       <thead>
         <tr>
-          <th class="col-img"></th>
           <th class="col-anime" data-col="anime">Anime</th>
           <th class="col-country" data-col="MX">México</th>
           <th class="col-country" data-col="AR">Argentina</th>
@@ -181,21 +166,7 @@
       {anime:"Yamada-kun to Lv999 no Koi wo Suru", MX:null, AR:null, BR:null, CO:null, CL:2},
     ];
 
-    const IMGS = {};
-
-    async function preloadImages() {
-      const titles = DATA.map(d => d.anime);
-      for (const title of titles) {
-        try {
-          const res = await fetch(`https://api.jikan.moe/v4/anime?q=${encodeURIComponent(title)}&limit=1`);
-          const json = await res.json();
-          const img = json.data?.[0]?.images?.jpg?.image_url;
-          if (img) IMGS[title] = img;
-          await new Promise(r => setTimeout(r, 400));
-        } catch(e) {}
-      }
-      render();
-    }
+    const COLS = ["MX","AR","BR","CO","CL"];
     const COLORS = {MX:"#E63946", AR:"#457B9D", BR:"#2A9D8F", CO:"#E9C46A", CL:"#F4A261"};
     const MAX = Math.max(...DATA.flatMap(d => COLS.map(c => d[c] || 0)));
 
@@ -222,12 +193,9 @@
         });
       }
 
-      document.getElementById("tbody").innerHTML = rows.map(d => {
-        const img = IMGS[d.anime]
-          ? `<img class="anime-thumb" src="${IMGS[d.anime]}" alt="${d.anime}" loading="lazy">`
-          : `<span class="thumb-placeholder"></span>`;
-        return `<tr><td style="text-align:center">${img}</td><td>${d.anime}</td>${COLS.map(c => `<td>${cell(d[c], c)}</td>`).join("")}</tr>`;
-      }).join("");
+      document.getElementById("tbody").innerHTML = rows.map(d =>
+        `<tr><td>${d.anime}</td>${COLS.map(c => `<td>${cell(d[c], c)}</td>`).join("")}</tr>`
+      ).join("");
 
       document.getElementById("row-count").textContent =
         `${rows.length} de ${DATA.length} series · Scores Google Trends (0–100) · — = sin datos`;
@@ -249,7 +217,6 @@
     document.getElementById("filter-mode").addEventListener("change", e => { filterMode = e.target.value; render(); });
 
     render();
-    preloadImages();
   </script>
 </body>
 </html>
