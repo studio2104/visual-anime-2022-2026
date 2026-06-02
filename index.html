@@ -14,16 +14,87 @@
     --c-muted:#8AADDC; --c-linea:rgba(187,148,110,0.35);
     --c-acento:#77525F; --c-hover:#ede1de;
     --c-card-1:#E6D9D6; --c-card-2:#BB946E; --c-card-3:#8AADDC;
+    /* cursor palette ES (default) */
+    --cur-skin:#F5C5A3; --cur-skin2:#E8A07C; --cur-skin3:#E05880; --cur-skin4:#B83860;
+    --cur-hair:#3D1F0A; --cur-hair2:#6B3515;
+    --cur-shirt:#D43060; --cur-shirt2:#5B7EC9; --cur-shirt3:#3A5DA8;
+    --cur-belt:#8B6020; --cur-boot:#4A2810; --cur-boot2:#2E1608;
+    --cur-sword:#D0D0DC; --cur-sword2:#9898A8; --cur-hilt:#C8A030; --cur-hilt2:#906010;
   }
   body { background:var(--c-bg); color:var(--c-texto); transition:background .5s,color .5s; }
-  body.tema-pt { --c-bg:#f7faf8; --c-panel:#d6ede5; --c-texto:#085041; --c-muted:#1D9E75; --c-linea:rgba(93,202,165,0.3); --c-acento:#085041; --c-hover:#c4e8dc; --c-card-1:#d6ede5; --c-card-2:#1D9E75; --c-card-3:#5DCAA5; }
-  body.tema-en { --c-bg:#f7f9fc; --c-panel:#d8e8f5; --c-texto:#0C447C; --c-muted:#378ADD; --c-linea:rgba(133,183,235,0.3); --c-acento:#0C447C; --c-hover:#c5ddf2; --c-card-1:#d8e8f5; --c-card-2:#378ADD; --c-card-3:#85B7EB; }
+
+  /* ── tema PT: verde bosque ── */
+  body.tema-pt {
+    --c-bg:#f7faf8; --c-panel:#d6ede5; --c-texto:#085041; --c-muted:#1D9E75;
+    --c-linea:rgba(93,202,165,0.3); --c-acento:#085041; --c-hover:#c4e8dc;
+    --c-card-1:#d6ede5; --c-card-2:#1D9E75; --c-card-3:#5DCAA5;
+    /* cursor PT: verdes */
+    --cur-skin:#D4E8C2; --cur-skin2:#AECF96; --cur-skin3:#6DB870; --cur-skin4:#3D8A45;
+    --cur-hair:#0A2A10; --cur-hair2:#1A5025;
+    --cur-shirt:#1D9E75; --cur-shirt2:#085041; --cur-shirt3:#0A6B55;
+    --cur-belt:#2A6020; --cur-boot:#0A2E10; --cur-boot2:#051808;
+    --cur-sword:#A8D8A8; --cur-sword2:#6AAE6A; --cur-hilt:#4A9E30; --cur-hilt2:#2A6010;
+  }
+
+  /* ── tema EN: azul océano ── */
+  body.tema-en {
+    --c-bg:#f7f9fc; --c-panel:#d8e8f5; --c-texto:#0C447C; --c-muted:#378ADD;
+    --c-linea:rgba(133,183,235,0.3); --c-acento:#0C447C; --c-hover:#c5ddf2;
+    --c-card-1:#d8e8f5; --c-card-2:#378ADD; --c-card-3:#85B7EB;
+    /* cursor EN: azules */
+    --cur-skin:#C2D8F0; --cur-skin2:#96BADC; --cur-skin3:#4A90D8; --cur-skin4:#1A5898;
+    --cur-hair:#0A1A30; --cur-hair2:#1A3A60;
+    --cur-shirt:#378ADD; --cur-shirt2:#0C447C; --cur-shirt3:#1A5DA8;
+    --cur-belt:#205080; --cur-boot:#0A1E30; --cur-boot2:#050E18;
+    --cur-sword:#C8D8F0; --cur-sword2:#88A8D8; --cur-hilt:#3060B0; --cur-hilt2:#103880;
+  }
+
   .pips { display:flex; gap:5px; margin:2.5rem max(1.25rem,8vw) 0; }
   .pip  { flex:1; height:2px; background:var(--c-acento); opacity:.18; transition:opacity .4s,background .5s; }
   .pip.done { opacity:.7; } .pip.now { opacity:1; background:var(--c-muted); }
-  .shell { width:min(780px,calc(100% - 4rem)); margin:0 auto; padding:3.5rem 0 7rem; font-family:"Libre Baskerville","American Typewriter","Palatino Linotype",Georgia,serif; }
-  .screen { display:none; } .screen.on { display:block; animation:fu .3s ease; }
-  @keyframes fu { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  /* ── CAROUSEL HORIZONTAL ── */
+  .shell-outer {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--c-bg);
+    transition: background .5s;
+    z-index: 10;
+  }
+  /* pips viven dentro del shell-outer como overlay */
+  .pips-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    z-index: 20;
+    display: flex;
+    gap: 5px;
+    padding: 1.25rem max(1.25rem,8vw) 0;
+    pointer-events: none;
+  }
+  .shell-track {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: 100%;
+    transition: transform .55s cubic-bezier(.77,0,.18,1);
+    will-change: transform;
+  }
+  .shell {
+    flex: 0 0 100vw;
+    width: 100vw;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 3rem max(2rem,calc((100vw - 780px)/2)) 5rem;
+    box-sizing: border-box;
+    font-family:"Libre Baskerville","American Typewriter","Palatino Linotype",Georgia,serif;
+    scroll-behavior: smooth;
+  }
+  .screen { display:block; opacity:0; pointer-events:none; transition:opacity .35s ease; }
+  .screen.on { opacity:1; pointer-events:auto; }
+  @keyframes fu { from{opacity:0} to{opacity:1} }
   .slabel { display:block; font-size:.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--c-muted); margin-bottom:.6rem; transition:color .5s; }
   .stitle { font-family:"Source Code Pro","Lucida Console","Courier New",monospace; font-size:clamp(2rem,4vw,3.4rem); font-weight:normal; color:var(--c-texto); line-height:1.05; margin-bottom:.85rem; transition:color .5s; }
   .sbody  { font-size:1.1rem; color:var(--c-texto); opacity:.78; line-height:1.8; margin-bottom:1.75rem; transition:color .5s; }
@@ -130,7 +201,73 @@
   .meto-pais-name { font-size:.8rem; color:var(--c-texto); opacity:.75; }
   .meto-pais-lang { font-size:.7rem; color:var(--c-muted); margin-top:.15rem; display:block; }
   .meto-cite { font-size:.78rem; color:var(--c-muted); line-height:1.7; padding-top:2rem; border-top:1px solid var(--c-linea); margin-top:2.5rem; }
-  @media(max-width:640px){ .statgrid{grid-template-columns:1fr 1fr} .anime-grid{grid-template-columns:1fr} .anime-cover-wrap{grid-template-columns:70px 1fr} .anime-cover,.anime-cover-ph{width:70px} #cl-prev{display:none} .meto-tab{padding:.6rem .75rem;font-size:.72rem} .meto-chip{min-width:100px} }
+
+  /* ══════════════════════════════════════
+     GAMIFICATION 1 — REVELACIÓN RETARDADA
+     pantalla de cálculo antes de s4
+  ══════════════════════════════════════ */
+  #s-calc { display:none; }
+  #s-calc.on { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; animation:fu .3s ease; }
+  .calc-inner { text-align:center; }
+  .calc-lines { display:flex; flex-direction:column; gap:.55rem; margin-bottom:2.5rem; }
+  .calc-line {
+    font-family:"Source Code Pro","Lucida Console","Courier New",monospace;
+    font-size:.82rem; color:var(--c-muted); opacity:0;
+    animation:calcReveal .35s ease forwards;
+  }
+  .calc-line span { color:var(--c-acento); font-weight:700; }
+  @keyframes calcReveal { to { opacity:1; } }
+  .calc-bar-track { width:260px; height:3px; background:var(--c-linea); border-radius:2px; overflow:hidden; margin:0 auto 1.5rem; }
+  .calc-bar-fill { height:100%; background:var(--c-acento); width:0%; border-radius:2px; transition:width 2.2s cubic-bezier(.16,1,.3,1); }
+  .calc-badge {
+    display:inline-block; font-size:.7rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.1em; background:var(--c-acento); color:var(--c-bg);
+    padding:.4rem 1.1rem; border-radius:2px; opacity:0;
+    animation:calcReveal .4s ease 2.4s forwards;
+  }
+
+  /* ══════════════════════════════════════
+     GAMIFICATION 2 — BARRA DE AFINIDAD
+  ══════════════════════════════════════ */
+  .affinity-wrap { margin:1.25rem 0 .5rem; }
+  .affinity-label { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:.45rem; }
+  .affinity-lbl { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--c-muted); }
+  .affinity-pct { font-family:"Source Code Pro","Lucida Console",monospace; font-size:1.1rem; font-weight:700; color:var(--c-acento); }
+  .affinity-track { height:6px; background:var(--c-linea); border-radius:3px; overflow:hidden; }
+  .affinity-fill { height:100%; background:var(--c-acento); width:0%; border-radius:3px; transition:width 1.1s cubic-bezier(.16,1,.3,1) .6s; }
+  .affinity-caption { font-size:.75rem; color:var(--c-muted); margin-top:.5rem; line-height:1.6; }
+
+  /* ══════════════════════════════════════
+     GAMIFICATION 3 — JOYAS DESCUBIERTAS
+  ══════════════════════════════════════ */
+  .joya-discovered { position:relative; }
+  .joya-discovered::after {
+    content:'✓'; position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    font-size:.7rem; font-weight:700; color:var(--c-acento); opacity:.6;
+  }
+  .joya-discovered .cicon { background:var(--c-acento); color:var(--c-bg); }
+  .joya-discovered .ctit { opacity:.65; }
+  .joyas-counter { font-family:"Source Code Pro","Lucida Console",monospace; font-size:.72rem; font-weight:700; color:var(--c-muted); margin-bottom:1rem; display:flex; align-items:center; gap:.5rem; }
+  .joyas-counter-pips { display:flex; gap:4px; }
+  .joyas-counter-pip { width:8px; height:8px; border-radius:50%; background:var(--c-linea); transition:background .4s,transform .3s; }
+  .joyas-counter-pip.lit { background:var(--c-acento); transform:scale(1.2); }
+  .joyas-all-badge {
+    display:none; font-size:.72rem; font-weight:700; text-transform:uppercase;
+    letter-spacing:.08em; background:var(--c-acento); color:var(--c-bg);
+    padding:.2rem .65rem; border-radius:2px; margin-left:.5rem;
+    animation:fu .4s ease;
+  }
+  .joyas-all-badge.show { display:inline-block; }
+
+  @media(max-width:640px){
+    .statgrid{grid-template-columns:1fr 1fr}
+    .anime-grid{grid-template-columns:1fr}
+    .anime-cover-wrap{grid-template-columns:70px 1fr}
+    .anime-cover,.anime-cover-ph{width:70px}
+    #cl-prev{display:none}
+    .meto-tab{padding:.6rem .75rem;font-size:.72rem}
+    .meto-chip{min-width:100px}
+  }
 </style>
 </head>
 <body>
@@ -146,10 +283,11 @@
   </div>
 </header>
 
-<div class="pips" id="pips"></div>
+<div class="shell-outer">
+<div class="pips-overlay" id="pips"></div>
+<div class="shell-track" id="shell-track">
 
-<div class="shell">
-
+  <div class="shell"><!-- S0: INICIO -->
   <div class="screen on" id="s0">
     <span class="slabel">Punto de partida</span>
     <p class="stitle">Bienvenida a tu viaje por el mundo del anime contemporáneo</p>
@@ -183,7 +321,8 @@
     </div>
   </div>
 
-  <div class="screen" id="s1">
+  <!-- S1: REGIÓN -->
+  </div><div class="shell"><div class="screen" id="s1">
     <span class="slabel" id="s1-label"></span>
     <p class="stitle" id="s1-title"></p>
     <p class="sbody" id="s1-body"></p>
@@ -201,7 +340,8 @@
     </div>
   </div>
 
-  <div class="screen" id="s2">
+  <!-- S2: GÉNERO -->
+  </div><div class="shell"><div class="screen" id="s2">
     <span class="slabel">02 · Tu preferencia</span>
     <p class="stitle">¿Qué tipo de historias te gustan más?</p>
     <p class="sbody">Cada género se conecta con un cluster de animes distinto en la red de consumo. Elige el que más te represente.</p>
@@ -209,11 +349,21 @@
     <div id="s2-panel" style="display:none"></div>
     <div class="navrow">
       <button class="bbk" onclick="go(1)"><i class="ti ti-arrow-left" aria-hidden="true"></i> Volver</button>
-      <button class="bnx" id="s2-next" onclick="go(3)" disabled>Ver clusters <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+      <button class="bnx" id="s2-next" onclick="goToCalc()" disabled>Ver clusters <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
     </div>
   </div>
 
-  <div class="screen" id="s3">
+  <!-- S-CALC: PANTALLA DE CÁLCULO (gamification 1) -->
+  </div><div class="shell"><div class="screen" id="s-calc">
+    <div class="calc-inner">
+      <div class="calc-lines" id="calc-lines"></div>
+      <div class="calc-bar-track"><div class="calc-bar-fill" id="calc-bar"></div></div>
+      <div class="calc-badge" id="calc-badge">Perfil identificado</div>
+    </div>
+  </div>
+
+  <!-- S3: CLUSTERS -->
+  </div><div class="shell"><div class="screen" id="s3">
     <span class="slabel">03 · Clusters temáticos</span>
     <p class="stitle" id="s3-title"></p>
     <p class="sbody">El algoritmo Louvain identificó cinco clusters en la red de anime y géneros. Tu género aparece resaltado. Toca cualquiera para explorar su composición.</p>
@@ -230,12 +380,15 @@
     </div>
   </div>
 
-  <div class="screen" id="s4">
+  <!-- S4: RESULTADO -->
+  </div><div class="shell"><div class="screen" id="s4">
     <div style="text-align:center;padding:1.5rem 0 1rem">
       <span class="rbadge">Tu perfil de consumo</span>
       <p class="stitle" id="r-title"></p>
       <p class="sbody" id="r-body"></p>
     </div>
+    <!-- GAMIFICATION 2: barra de afinidad -->
+    <div class="affinity-wrap" id="r-affinity"></div>
     <div class="icard">
       <span class="ilabel">Hallazgo regional</span>
       <p class="ititl" id="r-finding"></p>
@@ -261,10 +414,17 @@
     </div>
   </div>
 
-  <div class="screen" id="s5">
+  <!-- S5: JOYAS -->
+  </div><div class="shell"><div class="screen" id="s5">
     <span class="slabel">Ruta alternativa · Joyas del anime</span>
     <p class="stitle">Alto score, bajo perfil en Google Trends</p>
     <p class="sbody">Estas series tienen puntuaciones AniList sobresalientes pero scores de Google Trends cercanos a cero: audiencias comprometidas, no masivas. Selecciona una para explorarla.</p>
+    <!-- GAMIFICATION 3: contador de joyas descubiertas -->
+    <div class="joyas-counter" id="joyas-counter">
+      <div class="joyas-counter-pips" id="joyas-pips"></div>
+      <span id="joyas-counter-text">0 / 4 joyas exploradas</span>
+      <span class="joyas-all-badge" id="joyas-all-badge">Colección completa</span>
+    </div>
     <div class="choices" id="s5-choices"></div>
     <div class="icard" id="s5-panel" style="display:none">
       <span class="ilabel" id="s5-ilabel"></span>
@@ -285,7 +445,8 @@
     </div>
   </div>
 
-  <div class="screen" id="s6">
+  <!-- S6: METODOLOGÍA -->
+  </div><div class="shell"><div class="screen" id="s6">
     <span class="slabel">Metodología</span>
     <p class="stitle">¿Cómo se construyó este análisis?</p>
     <p class="sbody">Este proyecto cruza datos de consumo de anime con señales de búsqueda en internet para trazar un mapa de preferencias regionales en América Latina y Norteamérica. El corpus parte de 1,286 títulos extraídos de AniList, de los cuales 96 tienen datos de Google Trends. El quiz se basa en el cluster de élite: 235 títulos con score promedio 79.5 y 27 con señal activa en Trends.</p>
@@ -357,18 +518,25 @@
     </div>
   </div>
 
-</div>
+</div></div></div><!-- /shell-outer -->
 
 <script>
-let cur=0,lang='',genre='',prevScreen=4;
-const TEMAS={es:'',pt:'tema-pt',en:'tema-en'};
+/* ══════════════════════════════════════════
+   ESTADO GLOBAL
+══════════════════════════════════════════ */
+var cur=0, lang='', genre='', prevScreen=4;
+var discoveredJoyas = new Set(); // GAMIFICATION 3
 
-const LANGS={
+var TEMAS={es:'',pt:'tema-pt',en:'tema-en'};
+
+/* ── DATOS ── */
+var LANGS={
   es:{
     label:'01 · Región hispanohablante',
     title:'El anime en los países de habla hispana',
     body:'México y Colombia son los mercados hispanohablantes del análisis. DAN DA DAN destaca como el título con mayor score relativo en la región (MX:39, CO:43), superando incluso a Jujutsu Kaisen.',
     countries:['MX','CO'],
+    calcLines:['Cruzando datos de MX y CO…','Consultando red de 1,286 títulos…','Ejecutando Louvain en 392 nodos…','Comparando Trends 2023–2026…'],
     stats:[
       {l:'Países',v:'MX · CO',s:'México y Colombia'},
       {l:'Score promedio MX',v:'5',s:'Google Trends 0–100'},
@@ -387,10 +555,11 @@ const LANGS={
     title:'El anime en los países de habla portuguesa',
     body:'Brasil es el único país lusófono del análisis y el mayor mercado de anime de América Latina por volumen. DAN DA DAN lidera el interés de búsqueda con score 19.',
     countries:['BR'],
+    calcLines:['Cruzando dados do Brasil…','Consultando rede de 1.286 títulos…','Executando Louvain em 392 nós…','Comparando Trends 2023–2026…'],
     stats:[
       {l:'País',v:'BR',s:'Brasil'},
       {l:'Score promedio',v:'6',s:'Google Trends 0–100'},
-      {l:'Título con mayor score',v:'DAN DA DAN',s:'Score: 19'}
+      {l:'Título com maior score',v:'DAN DA DAN',s:'Score: 19'}
     ],
     anime:[
       {key:'dandadan',title:'DAN DA DAN',             sub:'Action · Science SARU',scores:{BR:19},icon:'ti-bolt',        img:'img/dandadan.jpg'},
@@ -405,6 +574,7 @@ const LANGS={
     title:'El anime en los países de habla inglesa',
     body:'EE.UU. registra los scores absolutos más altos del dataset. Canadá sigue de cerca. Ambos mercados se inclinan fuertemente hacia acción y aventura.',
     countries:['US','CA'],
+    calcLines:['Crossing data from US and CA…','Querying network of 1,286 titles…','Running Louvain on 392 nodes…','Comparing Trends 2023–2026…'],
     stats:[
       {l:'Países',v:'US · CA',s:'EE.UU. y Canadá'},
       {l:'Score promedio US',v:'11',s:'Google Trends 0–100'},
@@ -420,7 +590,7 @@ const LANGS={
   }
 };
 
-const GENRES=[
+var GENRES=[
   {key:'accion',  icon:'ti-sword',       title:'Acción',                 sub:'Batallas, poderes, rivalidades',      body:'El género dominante en todos los mercados. JJK S2 (Action | Drama | Supernatural) y Solo Leveling (Action | Adventure | Fantasy) concentran los scores de Trends más altos. MAPPA, A-1 Pictures y MADHOUSE producen los títulos top.',cluster:'aventura'},
   {key:'romance', icon:'ti-heart',        title:'Romance / Slice of life',sub:'Relaciones, cotidiano, sentimientos', body:'DAN DA DAN lidera el grupo con Romance entre sus géneros (Action | Comedy | Drama | Romance | Sci-Fi | Supernatural). El cluster incluye comedias románticas, Slice of Life y Josei con audiencias fieles.',cluster:'romance'},
   {key:'fantasia',icon:'ti-sparkles',     title:'Fantasía épica',         sub:'Mundos alternativos, magia, aventura',body:'Fuertemente ligado al Shounen. Frieren lidera con el score AniList más alto del dataset (91). Delicious in Dungeon une fantasía con comedia.',cluster:'aventura'},
@@ -429,46 +599,51 @@ const GENRES=[
   {key:'scifi',   icon:'ti-rocket',       title:'Sci-fi',                  sub:'Ciencia ficción, tecnología, futuro', body:'Solo Leveling lidera este espacio con scores consistentes en los 5 países (12–17). Kaiju No. 8 (Action | Sci-Fi | Shounen) es el segundo título más popular del grupo con 260,542 members.',cluster:'shonen'}
 ];
 
-const CLUSTERS={
-  romance:{color:'#993556',bg:'#FBEAF0',name:'Romance y comedia cotidiana',demo:'Josei / Shoujo / Seinen',pct:'28%',nodos:'20',img:'img/hat.png',
+var CLUSTERS={
+  romance:{color:'#993556',bg:'#FBEAF0',name:'Romance y comedia cotidiana',demo:'Josei / Shoujo / Seinen',pct:'28%',pctNum:28,nodos:'20',img:'img/hat.png',
     body:'DAN DA DAN (Action | Comedy | Drama | Romance | Sci-Fi | Supernatural) es el título con Romance más popular del corpus con 352,133 members y scores de Trends líderes (MX:39, CO:43). El cluster incluye también comedias románticas Seinen como Kaguya-sama y Slice of Life.',
     tags:['Romance','Comedy','Slice of Life','DAN DA DAN','Kaguya-sama','Seinen'],
+    affinityCaption:'Comparte preferencias con el 28% de la audiencia en tu región lingüística.',
     timeline:{
       2023:[{title:'Kaguya-sama S3',sub:'Comedy · Seinen · A-1 Pictures',score:4,img:'img/kaguya.jpg'},{title:'Tomo-chan Is a Girl!',sub:'Comedy · Romance · Brain Base',score:6,img:'img/tomo.jpg'}],
       2024:[{title:'Blue Box',sub:'Romance · Sports · Telecom Animation Film',score:5,img:'img/blue.jpg'},{title:'The Fragrant Flower Blooms With Dignity',sub:'Comedy · Drama · Romance · Platinum Vision',score:5,img:'img/flower.jpg'}],
       2025:[{title:'The Fragrant Flower Blooms With Dignity S2',sub:'Comedy · Drama · Romance · Platinum Vision',score:6,img:'img/flower.jpg'},{title:'DAN DA DAN Season 2',sub:'Action · Sci-Fi · Supernatural · Science SARU',score:4,img:'img/dandadan.jpg'}],
       2026:[{title:'Witch Hat Atelier',sub:'Adventure · Drama · Fantasy · BUG FILMS',score:3,img:'img/hat.png'},{title:'Sentenced to Be a Hero',sub:'Action · Drama · Fantasy · Studio KAI',score:2,img:'img/hero.jpeg'}]
     }},
-  aventura:{color:'#185FA5',bg:'#E6F1FB',name:'Acción, aventura y fantasía',demo:'Shounen · MAPPA, A-1, MADHOUSE',pct:'24%',nodos:'17',img:'img/frieren.jpg',
+  aventura:{color:'#185FA5',bg:'#E6F1FB',name:'Acción, aventura y fantasía',demo:'Shounen · MAPPA, A-1, MADHOUSE',pct:'24%',pctNum:24,nodos:'17',img:'img/frieren.jpg',
     body:'Frieren (Adventure | Drama | Fantasy) lidera con score AniList 91 y 434,823 members. Solo Leveling (Action | Adventure | Fantasy) es el más consistente en Trends cross-regionalmente (12–17 en los 5 países). JJK S2 (Action | Drama | Supernatural) ancla el grupo por popularidad aunque no tiene Fantasy.',
     tags:['Shounen','Action','Fantasy','Adventure','JJK','Frieren','Solo Leveling'],
+    affinityCaption:'El cluster de acción concentra el 24% del corpus de élite. Alto en anglófonos, sólido en LATAM.',
     timeline:{
       2023:[{title:'JUJUTSU KAISEN Season 2',sub:'Action · Drama · Supernatural · MAPPA',score:12,img:'img/gojo.jpg'},{title:"Frieren: Beyond Journey's End",sub:'Adventure · Drama · Fantasy · MADHOUSE',score:1,img:'img/frieren.jpg'}],
       2024:[{title:'Solo Leveling',sub:'Action · Adventure · Fantasy · A-1 Pictures',score:14,img:'img/sl.jpg'},{title:'DAN DA DAN',sub:'Action · Comedy · Sci-Fi · Supernatural · Science SARU',score:31,img:'img/dandadan.jpg'}],
       2025:[{title:'Gachiakuta',sub:'Action · Drama · Fantasy · bones',score:14,img:'img/gachi.jpg'},{title:'SAKAMOTO DAYS',sub:'Action · Comedy · TMS Entertainment',score:6,img:'img/sakamoto.jpg'}],
       2026:[{title:'Witch Hat Atelier',sub:'Adventure · Drama · Fantasy · BUG FILMS',score:3,img:'img/hat.png'},{title:'Sentenced to Be a Hero',sub:'Action · Drama · Fantasy · Studio KAI',score:2,img:'img/hero.jpeg'}]
     }},
-  drama:{color:'#5F5E5A',bg:'#F1EFE8',name:'Drama y suspenso psicológico',demo:'Seinen / Shounen',pct:'21%',nodos:'15',img:'img/vinland.jpg',
+  drama:{color:'#5F5E5A',bg:'#F1EFE8',name:'Drama y suspenso psicológico',demo:'Seinen / Shounen',pct:'21%',pctNum:21,nodos:'15',img:'img/vinland.jpg',
     body:'Oshi No Ko (Drama | Mystery | Psychological | Supernatural) lidera con score AniList 84 y 309,140 members. Kusuriya (Drama | Mystery, score 88) y Vinland Saga (Action | Adventure | Drama) completan el perfil: alto score AniList, audiencias Seinen comprometidas con menor tracción en Trends.',
     tags:['Seinen','Drama','Mystery','Psychological','Oshi No Ko','Kusuriya','Vinland Saga'],
+    affinityCaption:'El 21% del corpus comparte tu preferencia por narrativa densa. Audiencia de alto engagement en plataformas.',
     timeline:{
       2023:[{title:'Oshi No Ko',sub:'Drama · Mystery · Psychological · Supernatural · Doga Kobo',score:12,img:'img/oshi.jpg'},{title:'Vinland Saga Season 2',sub:'Action · Adventure · Drama · Seinen · MAPPA',score:3,img:'img/vinland.jpg'}],
       2024:[{title:'Delicious in Dungeon',sub:'Adventure · Comedy · Fantasy · TRIGGER',score:16,img:'img/dd.jpeg'},{title:'Dungeon People',sub:'Adventure · Comedy · Fantasy · OLM',score:2,img:'img/dp.jpg'}],
       2025:[{title:'The Apothecary Diaries Season 2',sub:'Drama · Mystery · Seinen · TOHO Animation Studio',score:8,img:'img/mao.jpg'},{title:'Medalist',sub:'Drama · Psychological · Sports · ENGI',score:4,img:'img/medalist.jpg'}],
       2026:[{title:'Frieren Season 2',sub:'Adventure · Drama · Fantasy · MADHOUSE',score:0,img:'img/frieren.jpg'},{title:'Witch Hat Atelier',sub:'Adventure · Drama · Fantasy · BUG FILMS',score:3,img:'img/hat.png'}]
     }},
-  shonen:{color:'#0F6E56',bg:'#E1F5EE',name:'Acción y sci-fi de gran consumo',demo:'Shounen · A-1, Science SARU',pct:'18%',nodos:'13',img:'img/dandadan.jpg',
+  shonen:{color:'#0F6E56',bg:'#E1F5EE',name:'Acción y sci-fi de gran consumo',demo:'Shounen · A-1, Science SARU',pct:'18%',pctNum:18,nodos:'13',img:'img/dandadan.jpg',
     body:'DAN DA DAN es el fenómeno del período: scores más altos en MX (39) y CO (43), superando a todos los demás títulos. Solo Leveling mantiene consistencia en los 5 países.',
     tags:['Shounen','Action','Sci-Fi','DAN DA DAN','Solo Leveling','Kaiju No. 8'],
+    affinityCaption:'Tu cluster concentra la señal Trends más alta: el 18% más visible de la audiencia regional.',
     timeline:{
       2023:[{title:'JUJUTSU KAISEN Season 2',sub:'Action · Drama · Supernatural · MAPPA',score:12,img:'img/gojo.jpg'},{title:"Hell's Paradise",sub:'Action · Adventure · MAPPA',score:4,img:'img/hell.jpeg'}],
       2024:[{title:'DAN DA DAN',sub:'Action · Comedy · Sci-Fi · Supernatural · Science SARU',score:31,img:'img/dandadan.jpg'},{title:'Kaiju No. 8',sub:'Action · Sci-Fi · Shounen · Production I.G',score:11,img:'img/kaiju.png'}],
       2025:[{title:'Gachiakuta',sub:'Action · Drama · Fantasy · bones',score:14,img:'img/gachi.jpg'},{title:'SAKAMOTO DAYS',sub:'Action · Comedy · TMS Entertainment',score:6,img:'img/sakamoto.jpg'}],
       2026:[{title:'Sentenced to Be a Hero',sub:'Action · Drama · Fantasy · Studio KAI',score:2,img:'img/hero.jpeg'},{title:"Hell's Paradise Season 2",sub:'Action · Adventure · MAPPA',score:1,img:'img/hell.jpeg'}]
     }},
-  horror:{color:'#854F0B',bg:'#FAEEDA',name:'Sobrenatural y horror moderno',demo:'Shounen / Seinen',pct:'8%',nodos:'6',img:'img/oshi.jpg',
+  horror:{color:'#854F0B',bg:'#FAEEDA',name:'Sobrenatural y horror moderno',demo:'Shounen / Seinen',pct:'8%',pctNum:8,nodos:'6',img:'img/oshi.jpg',
     body:'DAN DA DAN redefine este cluster mezclando sobrenatural, comedia y acción. Sus scores (MX:39, CO:43) son los más altos del dataset. El horror tradicional tiene un nicho pequeño pero estable.',
     tags:['Sobrenatural','Horror','DAN DA DAN','Acción','Comedia','Sci-Fi'],
+    affinityCaption:'El 8% del corpus — audiencia de nicho con altísimo compromiso. Calidad sobre cantidad.',
     timeline:{
       2023:[{title:'Oshi No Ko',sub:'Drama · Mystery · Psychological · Supernatural · Doga Kobo',score:12,img:'img/oshi.jpg'},{title:"Hell's Paradise",sub:'Action · Adventure · MAPPA',score:4,img:'img/hell.jpeg'}],
       2024:[{title:'DAN DA DAN',sub:'Action · Comedy · Sci-Fi · Supernatural · Science SARU',score:31,img:'img/dandadan.jpg'},{title:'Kaiju No. 8',sub:'Action · Sci-Fi · Shounen · Production I.G',score:11,img:'img/kaiju.png'}],
@@ -477,7 +652,7 @@ const CLUSTERS={
     }}
 };
 
-const JOYAS=[
+var JOYAS=[
   {key:'frieren',icon:'ti-wand',img:'img/frieren.jpg',
    title:"Frieren: Beyond Journey's End",titleJP:'Sousou no Frieren',
    sub:'Adventure · Drama · Fantasy · MADHOUSE',anio:'2023 · FALL',demo:'Shounen',
@@ -508,22 +683,23 @@ const JOYAS=[
   }
 ];
 
-const MAP_REGIONS={
+var MAP_REGIONS={
   es:{active:{'484':'México','170':'Colombia'},color:'#77525F',label:'Países de habla hispana'},
   pt:{active:{'076':'Brasil'},                 color:'#085041',label:'País de habla portuguesa'},
   en:{active:{'840':'EE.UU.','124':'Canadá'},  color:'#0C447C',label:'Países de habla inglesa'}
 };
 
-const AMERICAS=new Set([
+var AMERICAS=new Set([
   '032','068','076','152','170','188','192','214','218','222','320','332','340',
   '388','484','558','591','600','604','630','740','780','840','858','862',
   '124','044','084','212','308','659','660','662','670','796','850'
 ]);
 
-let MAP_GEO=null;
-const ORDER=['aventura','romance','drama','shonen','horror'];
-const YEARS=[2023,2024,2025,2026];
+var MAP_GEO=null;
+var ORDER=['aventura','romance','drama','shonen','horror'];
+var YEARS=[2023,2024,2025,2026];
 
+/* ── cursor preview ── */
 var clPrev=document.getElementById('cl-prev');
 var clPrevImg=document.getElementById('cl-prev-img');
 document.addEventListener('mousemove',function(e){
@@ -535,47 +711,119 @@ document.addEventListener('mousemove',function(e){
 });
 function clPrevHide(){ clPrev.classList.remove('on'); }
 
+/* ── pips ── */
+/* ── ÍNDICE DE PANTALLAS para el carrusel ── */
+var SCREEN_ORDER = ['s0','s1','s2','s-calc','s3','s4','s5','s6'];
+
+function screenIndex(id){
+  var k = (id==='calc') ? 's-calc' : (typeof id==='number' ? 's'+id : id);
+  return SCREEN_ORDER.indexOf(k);
+}
+
+function slideToIndex(idx){
+  var track = document.getElementById('shell-track');
+  track.style.transform = 'translateX(-' + (idx * 100) + 'vw)';
+}
+
 function buildPips(){
   var el=document.getElementById('pips');el.innerHTML='';
   if(cur===5||cur===6){el.style.display='none';return;}
+  var displayCur = (cur==='calc') ? 3 : (typeof cur==='number' ? cur : 0);
   el.style.display='flex';
   for(var i=0;i<5;i++){
     var d=document.createElement('div');
-    d.className='pip'+(i<cur?' done':i===cur?' now':'');
+    d.className='pip'+(i<displayCur?' done':i===displayCur?' now':'');
     el.appendChild(d);
   }
 }
 
+/* ── navegación ── */
+function activateScreen(id){
+  SCREEN_ORDER.forEach(function(sid){
+    var el=document.getElementById(sid);
+    if(el) el.classList.remove('on');
+  });
+  var el=document.getElementById(id);
+  if(el) el.classList.add('on');
+  var idx=SCREEN_ORDER.indexOf(id);
+  slideToIndex(idx);
+  // scroll the destination panel to top
+  var shells=document.querySelectorAll('.shell');
+  if(shells[idx]) shells[idx].scrollTop=0;
+}
+
 function go(n){
-  document.getElementById('s'+cur).classList.remove('on');
   if(n===6) prevScreen=cur;
   cur=n;
-  document.getElementById('s'+cur).classList.add('on');
+  activateScreen('s'+cur);
   buildPips();
-  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function goBack6(){
-  document.getElementById('s6').classList.remove('on');
   cur=prevScreen;
-  document.getElementById('s'+cur).classList.add('on');
+  activateScreen('s'+cur);
   buildPips();
-  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 function goJoyas(){
-  document.getElementById('s'+cur).classList.remove('on');
   cur=5;
-  document.getElementById('s5').classList.add('on');
+  activateScreen('s5');
   buildPips();
   initJoyas();
 }
 
 buildPips();
 
+/* ══════════════════════════════════════
+   GAMIFICATION 1 — REVELACIÓN RETARDADA
+   goToCalc → pantalla de cálculo → s3
+══════════════════════════════════════ */
+function goToCalc(){
+  var ld=LANGS[lang];
+  var lines=ld.calcLines||['Procesando datos…','Ejecutando Louvain…','Cruzando géneros…','Identificando perfil…'];
+
+  // mostrar pantalla de cálculo
+  cur='calc';
+  activateScreen('s-calc');
+  buildPips();
+  var calcEl=document.getElementById('s-calc');
+
+  // construir líneas con delay
+  var linesEl=document.getElementById('calc-lines');
+  linesEl.innerHTML='';
+  lines.forEach(function(txt,i){
+    var div=document.createElement('div');
+    div.className='calc-line';
+    div.style.animationDelay=(i*0.45)+'s';
+    div.textContent=txt;
+    linesEl.appendChild(div);
+  });
+
+  // barra de progreso
+  var bar=document.getElementById('calc-bar');
+  bar.style.width='0%';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      bar.style.width='100%';
+    });
+  });
+
+  // tras 2.8 s → ir a s3
+  setTimeout(function(){
+    cur=3;
+    var g=GENRES.find(function(x){return x.key===genre;});
+    buildClusters(g?g.cluster:'aventura');
+    buildResult(g?g.cluster:'aventura');
+    activateScreen('s3');
+    buildPips();
+  }, 2800);
+}
+
+/* ── idioma ── */
 function pickLang(l){
   lang=l;
   document.body.className=TEMAS[l]||'';
+  updateCursorPalette(); // GAMIFICATION 4
   var d=LANGS[l];
   document.getElementById('s1-label').textContent=d.label;
   document.getElementById('s1-title').textContent=d.title;
@@ -601,14 +849,13 @@ function pickLang(l){
   go(1);
 }
 
+/* ── mapa ── */
 function renderRegionMap(l){
   var el=document.getElementById('region-map');
   if(!el||!MAP_GEO)return;
   el.innerHTML='';
-  var cfg=MAP_REGIONS[l];
-  if(!cfg)return;
-  var W=el.clientWidth||600;
-  var H=Math.round(W*0.95);
+  var cfg=MAP_REGIONS[l];if(!cfg)return;
+  var W=el.clientWidth||600,H=Math.round(W*0.95);
   var svg=d3.select('#region-map').append('svg')
     .attr('viewBox','0 0 '+W+' '+H).attr('width','100%').style('background','#f5f3f0');
   var proj=d3.geoMercator().center([-88,18]).scale(W*0.38).translate([W*0.5,H*0.46]);
@@ -622,8 +869,7 @@ function renderRegionMap(l){
     .attr('opacity',function(d){return cfg.active[String(d.id).padStart(3,'0')]?1:0.75;});
   var LABEL_COORDS={'484':[-102.5,23.5],'170':[-74.3,4.7],'076':[-51.9,-14.2],'840':[-98.5,38.5],'124':[-96.8,56.0]};
   Object.keys(cfg.active).forEach(function(id){
-    var coords=LABEL_COORDS[id];
-    if(!coords)return;
+    var coords=LABEL_COORDS[id];if(!coords)return;
     var pt=proj([coords[0],coords[1]]);
     if(!pt||pt[0]<0||pt[0]>W||pt[1]<0||pt[1]>H)return;
     svg.append('text')
@@ -644,6 +890,7 @@ function imgHtml(src,alt){
   return '<div class="anime-cover-ph"><i class="ti ti-photo" aria-hidden="true"></i></div>';
 }
 
+/* ── s1 anime ── */
 function showAnime(key){
   var d=LANGS[lang];
   var a=d.anime.find(function(x){return x.key===key;});
@@ -667,6 +914,7 @@ function showAnime(key){
   document.getElementById('s1-next').disabled=false;
 }
 
+/* ── s2 género ── */
 function pickGenre(k){
   genre=k;
   var g=GENRES.find(function(x){return x.key===k;});
@@ -677,9 +925,9 @@ function pickGenre(k){
   panel.innerHTML='<div class="icard"><span class="ilabel">¿Por qué este género?</span><p class="ibody">'+g.body+'</p></div>';
   panel.style.display='block';
   document.getElementById('s2-next').disabled=false;
-  buildClusters(g.cluster);
 }
 
+/* ── s3 clusters ── */
 function buildClusters(main){
   var ld=LANGS[lang];
   document.getElementById('s3-title').textContent='Los 5 clusters en '+ld.countries.join(' y ');
@@ -702,7 +950,6 @@ function buildClusters(main){
     div.addEventListener('click',function(){clPrevHide();showCluster(k);});
     container.appendChild(div);
   });
-  buildResult(main);
 }
 
 function showCluster(k){
@@ -716,6 +963,7 @@ function showCluster(k){
   document.getElementById('s3-detail').style.display='block';
 }
 
+/* ── s4 resultado con barra de afinidad ── */
 function buildResult(main){
   var c=CLUSTERS[main],ld=LANGS[lang];
   document.getElementById('r-title').textContent='Cluster: '+c.name;
@@ -725,6 +973,24 @@ function buildResult(main){
   document.getElementById('r-tags').innerHTML=c.tags.map(function(t){
     return '<span class="tag" style="background:'+c.bg+';color:'+c.color+'">'+t+'</span>';
   }).join('');
+
+  /* GAMIFICATION 2 — barra de afinidad */
+  var pct=c.pctNum||0;
+  document.getElementById('r-affinity').innerHTML=
+    '<div class="affinity-label">'+
+      '<span class="affinity-lbl">Afinidad regional</span>'+
+      '<span class="affinity-pct" style="color:'+c.color+'">'+pct+'%</span>'+
+    '</div>'+
+    '<div class="affinity-track"><div class="affinity-fill" id="affinity-bar" style="background:'+c.color+'"></div></div>'+
+    '<p class="affinity-caption">'+c.affinityCaption+'</p>';
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      var bar=document.getElementById('affinity-bar');
+      if(bar)bar.style.width=pct+'%';
+    });
+  });
+
+  /* timeline */
   document.getElementById('r-timeline').innerHTML=YEARS.map(function(yr){
     var animes=c.timeline[yr]||[];
     var cards=animes.map(function(a){
@@ -740,20 +1006,52 @@ function buildResult(main){
   }).join('');
 }
 
+/* ══════════════════════════════════════
+   GAMIFICATION 3 — JOYAS DESCUBIERTAS
+══════════════════════════════════════ */
+function updateJoyasPips(){
+  var total=JOYAS.length;
+  var found=discoveredJoyas.size;
+  // texto
+  document.getElementById('joyas-counter-text').textContent=found+' / '+total+' joyas exploradas';
+  // pips
+  var pipsEl=document.getElementById('joyas-pips');
+  pipsEl.innerHTML='';
+  for(var i=0;i<total;i++){
+    var pip=document.createElement('div');
+    pip.className='joyas-counter-pip'+(i<found?' lit':'');
+    pipsEl.appendChild(pip);
+  }
+  // badge "colección completa"
+  var badge=document.getElementById('joyas-all-badge');
+  if(found===total) badge.classList.add('show');
+  else badge.classList.remove('show');
+}
+
 function initJoyas(){
   document.getElementById('s5-choices').innerHTML=JOYAS.map(function(j){
-    return '<button class="cb" onclick="showJoya(\''+j.key+'\')">'+
+    var discovered=discoveredJoyas.has(j.key);
+    return '<button class="cb'+(discovered?' joya-discovered':'')+'" onclick="showJoya(\''+j.key+'\')">'+
       '<div class="cicon"><i class="ti '+j.icon+'" aria-hidden="true"></i></div>'+
       '<div class="ctxt"><div class="ctit">'+j.title+'</div><div class="csub">'+j.sub.split('·')[0].trim()+' · '+j.anio+'</div></div>'+
       '<i class="ti ti-chevron-right carr" aria-hidden="true"></i></button>';
   }).join('');
+  updateJoyasPips();
 }
 
 function showJoya(key){
+  // marcar como descubierta
+  discoveredJoyas.add(key);
+
   var j=JOYAS.find(function(x){return x.key===key;});
-  document.querySelectorAll('#s5-choices .cb').forEach(function(b){
-    b.classList.toggle('sel',b.getAttribute('onclick').indexOf("'"+key+"'")>-1);
+  // actualizar estado visual de botones
+  document.querySelectorAll('#s5-choices .cb').forEach(function(b,i){
+    var jKey=JOYAS[i]?JOYAS[i].key:'';
+    b.classList.toggle('sel',jKey===key);
+    if(discoveredJoyas.has(jKey)) b.classList.add('joya-discovered');
   });
+  updateJoyasPips();
+
   document.getElementById('s5-ilabel').textContent=j.titleJP+' · '+j.anio+' · '+j.demo;
   document.getElementById('s5-cover').innerHTML=imgHtml(j.img,j.title);
   document.getElementById('s5-title-out').textContent=j.title;
@@ -779,23 +1077,28 @@ function showJoya(key){
   });
 }
 
+/* ── reset ── */
 function resetAll(){
   clPrevHide();
   lang='';genre='';cur=0;prevScreen=4;
+  // NO reseteamos discoveredJoyas — persisten en la sesión
   document.body.className='';
+  updateCursorPalette();
   document.getElementById('s1-next').disabled=true;
   document.getElementById('s2-next').disabled=true;
   ['s1-panel','s2-panel','s3-detail','s5-panel'].forEach(function(id){document.getElementById(id).style.display='none';});
-  ['s1-stats','s1-anime','s2-genres','s3-clusters','r-timeline','s5-choices','r-tags','s3-det-tags'].forEach(function(id){document.getElementById(id).innerHTML='';});
+  ['s1-stats','s1-anime','s2-genres','s3-clusters','r-timeline','s5-choices','r-tags','s3-det-tags','r-affinity'].forEach(function(id){document.getElementById(id).innerHTML='';});
   document.getElementById('region-map').innerHTML='';
   document.getElementById('region-map-legend').innerHTML='';
   ['s1-label','s1-title','s1-body','s3-title','r-title','r-body','r-finding','r-detail'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='';});
   document.querySelectorAll('.cb').forEach(function(b){b.classList.remove('sel');});
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on');});
-  document.getElementById('s0').classList.add('on');
+  cur=0;
+  activateScreen('s0');
   buildPips();
 }
 
+/* ── metodología ── */
 function metoTab(btn,id){
   btn.closest('.meto-tabs').querySelectorAll('.meto-tab').forEach(function(t){t.classList.remove('on');});
   btn.classList.add('on');
@@ -803,7 +1106,6 @@ function metoTab(btn,id){
   panel.querySelectorAll('.meto-panel').forEach(function(p){p.classList.remove('on');});
   document.getElementById(id).classList.add('on');
 }
-
 function metoExtra(btn){
   var arrow=btn.querySelector('.meto-toggle-arrow');
   var extra=btn.nextElementSibling;
@@ -813,12 +1115,16 @@ function metoExtra(btn){
 }
 </script>
 
+<!-- D3 + TopoJSON -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
 <script>
 d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(function(data){MAP_GEO=data;});
 </script>
 
+<!-- ══════════════════════════════════════
+     CURSOR RPG — GAMIFICATION 4: paleta reactiva al tema
+═══════════════════════════════════════ -->
 <canvas id="rpg-cursor" style="position:fixed;top:0;left:0;pointer-events:none;z-index:99999;image-rendering:pixelated;opacity:0;"></canvas>
 <script>
 (function(){
@@ -828,13 +1134,50 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(f
   var S=4,W=8,H=14;
   cv.width=W*S; cv.height=H*S;
   cv.style.width=(W*S)+'px'; cv.style.height=(H*S)+'px';
+
+  /* ── paletas dinámicas leídas desde CSS vars ── */
+  var root=document.documentElement;
+  function cssVar(v){ return getComputedStyle(document.body).getPropertyValue(v).trim(); }
+
+  /* Paleta activa — se rellena en updateCursorPalette() */
   var P={
-    _:null,sk:'#F5C5A3',sk2:'#E8A07C',ha:'#3D1F0A',ha2:'#6B3515',
-    ey:'#2A1A0A',li:'#D07868',bo:'#D43060',sh:'#5B7EC9',sh2:'#3A5DA8',
-    sk3:'#E05880',sk4:'#B83860',bt:'#4A2810',bt2:'#2E1608',bl:'#8B6020',
-    sw:'#D0D0DC',sw2:'#9898A8',hg:'#C8A030',hg2:'#906010'
+    _:null,
+    sk:'#F5C5A3',sk2:'#E8A07C',sk3:'#E05880',sk4:'#B83860',
+    ha:'#3D1F0A',ha2:'#6B3515',
+    bo:'#D43060',
+    sh:'#D43060',sh2:'#5B7EC9',sh3:'#3A5DA8',
+    bl:'#8B6020',
+    bt:'#4A2810',bt2:'#2E1608',
+    sw:'#D0D0DC',sw2:'#9898A8',
+    hg:'#C8A030',hg2:'#906010',
+    ey:'#2A1A0A',li:'#D07868'
   };
-  function c(k){return k==='_'||!k?null:P[k];}
+
+  /* exponer al scope global para que pickLang lo pueda llamar */
+  window.updateCursorPalette=function(){
+    P.sk  = cssVar('--cur-skin')   || '#F5C5A3';
+    P.sk2 = cssVar('--cur-skin2')  || '#E8A07C';
+    P.sk3 = cssVar('--cur-skin3')  || '#E05880';
+    P.sk4 = cssVar('--cur-skin4')  || '#B83860';
+    P.ha  = cssVar('--cur-hair')   || '#3D1F0A';
+    P.ha2 = cssVar('--cur-hair2')  || '#6B3515';
+    P.bo  = cssVar('--cur-shirt')  || '#D43060';
+    P.sh  = cssVar('--cur-shirt')  || '#D43060';
+    P.sh2 = cssVar('--cur-shirt2') || '#5B7EC9';
+    P.sh3 = cssVar('--cur-shirt3') || '#3A5DA8';
+    P.bl  = cssVar('--cur-belt')   || '#8B6020';
+    P.bt  = cssVar('--cur-boot')   || '#4A2810';
+    P.bt2 = cssVar('--cur-boot2')  || '#2E1608';
+    P.sw  = cssVar('--cur-sword')  || '#D0D0DC';
+    P.sw2 = cssVar('--cur-sword2') || '#9898A8';
+    P.hg  = cssVar('--cur-hilt')   || '#C8A030';
+    P.hg2 = cssVar('--cur-hilt2')  || '#906010';
+  };
+  window.updateCursorPalette();
+
+  function c(k){return (!k||k==='_')?null:P[k];}
+
+  /* ── sprites (sin cambios) ── */
   var IA=[
     ['_','_','bo','bo','bo','_','_','_'],
     ['_','ha','ha2','ha2','ha','ha','_','_'],
@@ -845,7 +1188,7 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(f
     ['sw2','sh2','sh','sh','sh','sh2','_','_'],
     ['sw','bl','bl','bl','bl','bl','_','_'],
     ['hg','sk3','sk3','sk3','sk3','sk3','_','_'],
-    ['hg2','sk4','sk3','sk3','sk3','sk4','_','_'],
+    ['hg2','sk4','sk4','sk3','sk3','sk4','_','_'],
     ['_','sk4','bt','bt','bt','sk4','_','_'],
     ['_','_','bt','bt2','bt','_','_','_'],
     ['_','_','bt2','_','bt2','_','_','_'],
@@ -931,9 +1274,11 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(f
     ['_','_','_','_','_','_','_','_'],
     ['_','_','_','_','_','_','_','_'],
   ];
+
   var IDLE=[IA,IB,IA,IB],WALK=[WA,WB,WA,WB],ATK=[AA,AB,AA,IB];
   var mx=-200,my=-200,pmx=0,pmy=0;
   var state='idle',frame=0,tick=0,atkTick=0;
+
   document.addEventListener('mousemove',function(e){
     pmx=mx;pmy=my;
     mx=e.clientX-6;my=e.clientY-4;
@@ -947,6 +1292,7 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(f
   document.addEventListener('mousedown',function(){
     if(state!=='atk'){state='atk';frame=0;tick=0;atkTick=0;}
   });
+
   function drawFrame(pixels){
     ctx.clearRect(0,0,cv.width,cv.height);
     for(var y=0;y<H;y++){
@@ -958,6 +1304,7 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(f
       }
     }
   }
+
   function loop(){
     tick++;
     if(tick%8===0){
