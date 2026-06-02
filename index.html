@@ -95,6 +95,7 @@
   .screen { display:block; opacity:0; pointer-events:none; transition:opacity .35s ease; }
   .screen.on { opacity:1; pointer-events:auto; }
   @keyframes fu { from{opacity:0} to{opacity:1} }
+  .shell { padding-bottom: 5rem !important; }
   .slabel { display:block; font-size:.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--c-muted); margin-bottom:.6rem; transition:color .5s; }
   .stitle { font-family:"Source Code Pro","Lucida Console","Courier New",monospace; font-size:clamp(2rem,4vw,3.4rem); font-weight:normal; color:var(--c-texto); line-height:1.05; margin-bottom:.85rem; transition:color .5s; }
   .sbody  { font-size:1.1rem; color:var(--c-texto); opacity:.78; line-height:1.8; margin-bottom:1.75rem; transition:color .5s; }
@@ -166,9 +167,51 @@
   .anime-cover-wrap { display:grid; grid-template-columns:90px 1fr; gap:1rem; align-items:start; margin-bottom:.85rem; }
   .anime-cover { width:90px; border-radius:4px; display:block; aspect-ratio:2/3; object-fit:cover; background:var(--c-panel); }
   .anime-cover-ph { width:90px; aspect-ratio:2/3; background:var(--c-panel); border-radius:4px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; color:var(--c-muted); }
-  #cl-prev { position:fixed; pointer-events:none; z-index:9999; width:120px; border-radius:6px; overflow:hidden; box-shadow:0 8px 28px rgba(0,0,0,.22); opacity:0; transition:opacity .18s ease; top:0; left:0; }
+  #cl-prev {
+    position:fixed; pointer-events:none; z-index:9999;
+    width:130px;
+    border-radius:10px;
+    overflow:visible;
+    opacity:0; transition:opacity .2s ease;
+    top:0; left:0;
+    filter: drop-shadow(0 6px 18px rgba(0,0,0,.28));
+  }
   #cl-prev.on { opacity:1; }
+  #cl-prev-inner {
+    border-radius:10px;
+    overflow:hidden;
+    border:3px solid var(--c-bg);
+    box-shadow: 0 0 0 1px var(--c-linea), 0 12px 32px rgba(0,0,0,.22);
+    background:var(--c-panel);
+    transition:border-color .5s,background .5s;
+  }
   #cl-prev img { width:100%; display:block; aspect-ratio:2/3; object-fit:cover; }
+  /* tail de la nube */
+  #cl-prev-tail {
+    position:absolute; bottom:-10px; left:18px;
+    width:0; height:0;
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+    border-top:11px solid var(--c-bg);
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.12));
+    transition:border-top-color .5s;
+  }
+  #cl-prev-tail::after {
+    content:'';
+    position:absolute; top:-13px; left:-7px;
+    width:0; height:0;
+    border-left:7px solid transparent;
+    border-right:7px solid transparent;
+    border-top:10px solid var(--c-linea);
+  }
+  #cl-prev-label {
+    padding:.3rem .55rem .35rem;
+    font-family:"Source Code Pro","Lucida Console",monospace;
+    font-size:.62rem; font-weight:700;
+    color:var(--c-acento); opacity:.8;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    transition:color .5s;
+  }
   .meto-tabs { display:flex; gap:0; border-bottom:1px solid var(--c-linea); margin-bottom:2rem; overflow-x:auto; -webkit-overflow-scrolling:touch; }
   .meto-tab { font-size:.78rem; font-weight:700; letter-spacing:.07em; text-transform:uppercase; padding:.6rem 1.1rem; background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; color:var(--c-muted); white-space:nowrap; font-family:inherit; margin-bottom:-1px; transition:color .18s,border-color .18s; }
   .meto-tab:hover { color:var(--c-texto); }
@@ -272,7 +315,7 @@
 </head>
 <body>
 
-<div id="cl-prev"><img id="cl-prev-img" src="" alt=""></div>
+<div id="cl-prev"><div id="cl-prev-inner"><img id="cl-prev-img" src="" alt=""><div id="cl-prev-label"></div></div><div id="cl-prev-tail"></div></div>
 
 <header class="hero">
   <div class="hero-texto">
@@ -565,7 +608,7 @@ var LANGS={
       {key:'dandadan',title:'DAN DA DAN',             sub:'Action · Science SARU',scores:{BR:19},icon:'ti-bolt',        img:'img/dandadan.jpg'},
       {key:'jjk',    title:'JUJUTSU KAISEN Season 2',sub:'Action · MAPPA',       scores:{BR:13},icon:'ti-sword',       img:'img/gojo.jpg'},
       {key:'solo',   title:'Solo Leveling',           sub:'Action · A-1 Pictures',scores:{BR:12},icon:'ti-trending-up',img:'img/sl.jpg'},
-      {key:'dungeon',title:'Delicious in Dungeon',    sub:'Adventure · TRIGGER',  scores:{BR:16},icon:'ti-tools-kitchen-2',img:'img/dd.jpg'}
+      {key:'dungeon',title:'Delicious in Dungeon',    sub:'Adventure · TRIGGER',  scores:{BR:16},icon:'ti-tools-kitchen-2',img:'img/dd.jpeg'}
     ],
     context:'Brasil muestra un patrón similar al hispanohablante: DAN DA DAN tiene el mayor score de búsqueda. Los scores son relativos al pico máximo del grupo.'
   },
@@ -584,7 +627,7 @@ var LANGS={
       {key:'jjk',    title:'JUJUTSU KAISEN Season 2',sub:'Action · MAPPA',       scores:{US:10,CA:12},icon:'ti-sword',       img:'img/gojo.jpg'},
       {key:'dandadan',title:'DAN DA DAN',            sub:'Action · Science SARU',scores:{US:20,CA:14},icon:'ti-bolt',        img:'img/dandadan.jpg'},
       {key:'solo',   title:'Solo Leveling',          sub:'Action · A-1 Pictures',scores:{US:16,CA:17},icon:'ti-trending-up', img:'img/sl.jpg'},
-      {key:'dungeon',title:'Delicious in Dungeon',   sub:'Adventure · TRIGGER',  scores:{US:21,CA:21},icon:'ti-tools-kitchen-2',img:'img/dd.jpg'}
+      {key:'dungeon',title:'Delicious in Dungeon',   sub:'Adventure · TRIGGER',  scores:{US:21,CA:21},icon:'ti-tools-kitchen-2',img:'img/dd.jpeg'}
     ],
     context:'Delicious in Dungeon y Solo Leveling tienen scores muy similares en US y CA. DAN DA DAN supera a JJK en EE.UU. Los scores son relativos al pico máximo del grupo.'
   }
@@ -626,7 +669,7 @@ var CLUSTERS={
     affinityCaption:'El 21% del corpus comparte tu preferencia por narrativa densa. Audiencia de alto engagement en plataformas.',
     timeline:{
       2023:[{title:'Oshi No Ko',sub:'Drama · Mystery · Psychological · Supernatural · Doga Kobo',score:12,img:'img/oshi.jpg'},{title:'Vinland Saga Season 2',sub:'Action · Adventure · Drama · Seinen · MAPPA',score:3,img:'img/vinland.jpg'}],
-      2024:[{title:'Delicious in Dungeon',sub:'Adventure · Comedy · Fantasy · TRIGGER',score:16,img:'img/dd.jpg'},{title:'Dungeon People',sub:'Adventure · Comedy · Fantasy · OLM',score:2,img:'img/dp.jpg'}],
+      2024:[{title:'Delicious in Dungeon',sub:'Adventure · Comedy · Fantasy · TRIGGER',score:16,img:'img/dd.jpeg'},{title:'Dungeon People',sub:'Adventure · Comedy · Fantasy · OLM',score:2,img:'img/dp.jpg'}],
       2025:[{title:'The Apothecary Diaries Season 2',sub:'Drama · Mystery · Seinen · TOHO Animation Studio',score:8,img:'img/mao.jpg'},{title:'Medalist',sub:'Drama · Psychological · Sports · ENGI',score:4,img:'img/medalist.jpg'}],
       2026:[{title:'Frieren Season 2',sub:'Adventure · Drama · Fantasy · MADHOUSE',score:0,img:'img/frieren.jpg'},{title:'Witch Hat Atelier',sub:'Adventure · Drama · Fantasy · BUG FILMS',score:3,img:'img/hat.png'}]
     }},
@@ -674,7 +717,7 @@ var JOYAS=[
    body:'Combina horror, comedia y crítica laboral en una premisa única: el protagonista celebra el apocalipsis zombie porque ya no tiene que ir a trabajar. Score modesto en Trends pero 225,547 members en AniList apuntan a un nicho muy fiel.',
    hallazgo:'Score AniList: 76 · Trends bajos (máx. 7 en US) · El título más original del corpus en concepto narrativo.'
   },
-  {key:'dungeon',icon:'ti-tools-kitchen-2',img:'img/dd.jpg',
+  {key:'dungeon',icon:'ti-tools-kitchen-2',img:'img/dd.jpeg',
    title:'Delicious in Dungeon',titleJP:'Dungeon Meshi',
    sub:'Adventure · Comedy · Fantasy · TRIGGER',anio:'2024 · WINTER',demo:'Seinen',
    score_anilist:85,popularidad:208156,scores:{MX:7,US:21,CA:21,CO:0,BR:16},
@@ -704,11 +747,17 @@ var clPrev=document.getElementById('cl-prev');
 var clPrevImg=document.getElementById('cl-prev-img');
 document.addEventListener('mousemove',function(e){
   if(!clPrev.classList.contains('on'))return;
-  var x=e.clientX+20,y=e.clientY+20;
-  if(x+124>window.innerWidth-8)x=e.clientX-144;
-  if(y+184>window.innerHeight-8)y=e.clientY-204;
+  var x=e.clientX+18, y=e.clientY-clPrev.offsetHeight-14;
+  if(x+140>window.innerWidth-8) x=e.clientX-148;
+  if(y<8) y=e.clientY+18;
   clPrev.style.transform='translate('+x+'px,'+y+'px)';
 });
+function clPrevShow(src,label){
+  clPrevImg.src=src;
+  var lbl=document.getElementById('cl-prev-label');
+  if(lbl) lbl.textContent=label||'';
+  clPrev.classList.add('on');
+}
 function clPrevHide(){ clPrev.classList.remove('on'); }
 
 /* ── pips ── */
@@ -832,7 +881,8 @@ function pickLang(l){
     return '<div class="stat"><span class="slb">'+s.l+'</span><span class="sval">'+s.v+'</span><span class="ssub">'+s.s+'</span></div>';
   }).join('');
   document.getElementById('s1-anime').innerHTML=d.anime.map(function(a){
-    return '<button class="cb" onclick="showAnime(\''+a.key+'\')">'+
+    var hov=a.img ? ' onmouseenter="clPrevShow(\''+a.img+'\',\''+a.title+'\')" onmouseleave="clPrevHide()"' : '';
+    return '<button class="cb" onclick="showAnime(\''+a.key+'\')"'+hov+'>'+
       '<div class="cicon"><i class="ti '+a.icon+'" aria-hidden="true"></i></div>'+
       '<div class="ctxt"><div class="ctit">'+a.title+'</div><div class="csub">'+a.sub+'</div></div>'+
       '<i class="ti ti-chevron-right carr" aria-hidden="true"></i></button>';
@@ -944,7 +994,7 @@ function buildClusters(main){
       '<div class="cl-sub">'+c.demo+' · '+c.nodos+' nodos</div></div>'+
       '<div class="cl-pct">'+c.pct+'</div>';
     if(c.img){
-      div.addEventListener('mouseenter',function(){clPrevImg.src=c.img;clPrev.classList.add('on');});
+      div.addEventListener('mouseenter',function(){clPrevShow(c.img,c.name);});
       div.addEventListener('mouseleave',clPrevHide);
     }
     div.addEventListener('click',function(){clPrevHide();showCluster(k);});
@@ -1324,5 +1374,16 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(f
 })();
 </script>
 
+
+<footer id="site-footer" style="position:fixed;bottom:0;left:0;right:0;z-index:50;text-align:center;padding:.65rem max(1.25rem,8vw);font-family:'Source Code Pro','Lucida Console','Courier New',monospace;font-size:.68rem;color:var(--c-muted);border-top:1px solid var(--c-linea);background:var(--c-bg);display:flex;align-items:center;justify-content:center;gap:.85rem;flex-wrap:wrap;transition:color .5s,border-color .5s,background .5s;">
+  <span>Natalia Rocha · natalia.rocha@tec.mx</span>
+  <span style="opacity:.35">·</span>
+  <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem;border-bottom:1px solid currentColor;padding-bottom:1px;opacity:.8;transition:opacity .18s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.8">
+    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 1.5a8.5 8.5 0 1 1 0 17 8.5 8.5 0 0 1 0-17zM9.5 8a3.5 3.5 0 0 0 0 7h.25v-1.5H9.5a2 2 0 1 1 0-4h.25V8H9.5zm4.75 0v1.5h.25a2 2 0 1 1 0 4h-.25V15h.25a3.5 3.5 0 0 0 0-7h-.25z"/></svg>
+    CC BY-NC-SA 4.0
+  </a>
+  <span style="opacity:.35">·</span>
+  <span>2026</span>
+</footer>
 </body>
 </html>
