@@ -29,7 +29,7 @@
     --c-linea:rgba(93,202,165,0.3); --c-acento:#085041; --c-hover:#c4e8dc;
     --c-card-1:#d6ede5; --c-card-2:#1D9E75; --c-card-3:#5DCAA5;
     /* cursor PT: verdes */
-    --cur-skin:#D4E8C2; --cur-skin2:#AECF96; --cur-skin3:#6DB870; --cur-skin4:#3D8A45;
+
     --cur-hair:#0A2A10; --cur-hair2:#1A5025;
     --cur-shirt:#1D9E75; --cur-shirt2:#085041; --cur-shirt3:#0A6B55;
     --cur-belt:#2A6020; --cur-boot:#0A2E10; --cur-boot2:#051808;
@@ -42,7 +42,7 @@
     --c-linea:rgba(133,183,235,0.3); --c-acento:#0C447C; --c-hover:#c5ddf2;
     --c-card-1:#d8e8f5; --c-card-2:#378ADD; --c-card-3:#85B7EB;
     /* cursor EN: azules */
-    --cur-skin:#C2D8F0; --cur-skin2:#96BADC; --cur-skin3:#4A90D8; --cur-skin4:#1A5898;
+
     --cur-hair:#0A1A30; --cur-hair2:#1A3A60;
     --cur-shirt:#378ADD; --cur-shirt2:#0C447C; --cur-shirt3:#1A5DA8;
     --cur-belt:#205080; --cur-boot:#0A1E30; --cur-boot2:#050E18;
@@ -1155,10 +1155,11 @@ d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(f
 
   /* exponer al scope global para que pickLang lo pueda llamar */
   window.updateCursorPalette=function(){
-    P.sk  = cssVar('--cur-skin')   || '#F5C5A3';
-    P.sk2 = cssVar('--cur-skin2')  || '#E8A07C';
-    P.sk3 = cssVar('--cur-skin3')  || '#E05880';
-    P.sk4 = cssVar('--cur-skin4')  || '#B83860';
+    // tono piel — siempre fijo sin importar el tema
+    P.sk  = '#F5C5A3';
+    P.sk2 = '#E8A07C';
+    P.sk3 = '#E05880';
+    P.sk4 = '#B83860';
     P.ha  = cssVar('--cur-hair')   || '#3D1F0A';
     P.ha2 = cssVar('--cur-hair2')  || '#6B3515';
     P.bo  = cssVar('--cur-shirt')  || '#D43060';
